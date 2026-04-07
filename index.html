@@ -70,72 +70,18 @@
             margin-bottom: 25px;
         }
 
-        .preview-container {
-            position: relative;
-            display: inline-block;
-            max-width: 600px;
-            width: 100%;
-        }
-
         .preview-image {
             width: 100%;
+            max-width: 600px;
             height: auto;
             border-radius: 12px;
             display: block;
+            margin: 0 auto;
+            transition: opacity 0.3s ease;
         }
 
-        /* 指甲颜色叠加层 */
-        .nail-overlay {
-            position: absolute;
-            border-radius: 50%;
-            mix-blend-mode: multiply;
-            pointer-events: none;
-            transition: background-color 0.3s ease;
-        }
-
-        /* 大脚趾 */
-        .nail-overlay-1 {
-            top: 28%;
-            left: 68%;
-            width: 8.5%;
-            height: 11%;
-            transform: rotate(-10deg);
-        }
-
-        /* 第二脚趾 */
-        .nail-overlay-2 {
-            top: 22%;
-            left: 58%;
-            width: 6.5%;
-            height: 8.5%;
-            transform: rotate(-5deg);
-        }
-
-        /* 第三脚趾 */
-        .nail-overlay-3 {
-            top: 20%;
-            left: 49%;
-            width: 5.5%;
-            height: 7.5%;
-            transform: rotate(0deg);
-        }
-
-        /* 第四脚趾 */
-        .nail-overlay-4 {
-            top: 22%;
-            left: 41%;
-            width: 5%;
-            height: 7%;
-            transform: rotate(5deg);
-        }
-
-        /* 小脚趾 */
-        .nail-overlay-5 {
-            top: 26%;
-            left: 34%;
-            width: 4.5%;
-            height: 6.5%;
-            transform: rotate(10deg);
+        .preview-image.fade {
+            opacity: 0.5;
         }
 
         /* 颜色选择网格 */
@@ -319,73 +265,58 @@
                 
                 <div class="preview-box">
                     <div class="preview-title">实时预览效果</div>
-                    <div class="preview-container">
-                        <!-- 真实脚趾照片 -->
-                        <img src="foot-reference.png" alt="脚趾甲预览" class="preview-image" id="footImage">
-                        
-                        <!-- 指甲颜色叠加层 -->
-                        <div class="nail-overlay nail-overlay-1" id="overlay1"></div>
-                        <div class="nail-overlay nail-overlay-2" id="overlay2"></div>
-                        <div class="nail-overlay nail-overlay-3" id="overlay3"></div>
-                        <div class="nail-overlay nail-overlay-4" id="overlay4"></div>
-                        <div class="nail-overlay nail-overlay-5" id="overlay5"></div>
-                    </div>
+                    <img src="nail-1.jpg" alt="指甲油颜色预览" class="preview-image" id="previewImage">
                 </div>
 
                 <div class="color-grid">
-                    <div class="color-card selected" data-color="#9B1B30" data-name="KKV 经典">
-                        <div class="color-swatch" style="background: #9B1B30;"></div>
-                        <div class="color-name">KKV 经典</div>
-                    </div>
-                    
-                    <div class="color-card" data-color="#C41E3A" data-name="酒红">
+                    <div class="color-card selected" data-image="nail-1.png" data-name="酒红" data-color="#C41E3A">
                         <div class="color-swatch" style="background: #C41E3A;"></div>
                         <div class="color-name">酒红</div>
                     </div>
                     
-                    <div class="color-card" data-color="#8B1538" data-name="复古红">
+                    <div class="color-card" data-image="nail-2.png" data-name="复古红" data-color="#8B1538">
                         <div class="color-swatch" style="background: #8B1538;"></div>
                         <div class="color-name">复古红</div>
                     </div>
                     
-                    <div class="color-card" data-color="#DC143C" data-name="胭脂红">
+                    <div class="color-card" data-image="nail-3.png" data-name="胭脂红" data-color="#DC143C">
                         <div class="color-swatch" style="background: #DC143C;"></div>
                         <div class="color-name">胭脂红</div>
                     </div>
                     
-                    <div class="color-card" data-color="#FF9A8B" data-name="珊瑚粉">
+                    <div class="color-card" data-image="nail-4.png" data-name="珊瑚粉" data-color="#FF9A8B">
                         <div class="color-swatch" style="background: #FF9A8B;"></div>
                         <div class="color-name">珊瑚粉</div>
                     </div>
                     
-                    <div class="color-card" data-color="#FF6B9D" data-name="樱花粉">
+                    <div class="color-card" data-image="nail-5.png" data-name="樱花粉" data-color="#FF6B9D">
                         <div class="color-swatch" style="background: #FF6B9D;"></div>
                         <div class="color-name">樱花粉</div>
                     </div>
                     
-                    <div class="color-card" data-color="#4A7C59" data-name="墨绿">
+                    <div class="color-card" data-image="nail-6.png" data-name="墨绿" data-color="#4A7C59">
                         <div class="color-swatch" style="background: #4A7C59;"></div>
                         <div class="color-name">墨绿</div>
                     </div>
                     
-                    <div class="color-card" data-color="#D4A574" data-name="裸色">
+                    <div class="color-card" data-image="nail-7.png" data-name="裸色" data-color="#D4A574">
                         <div class="color-swatch" style="background: #D4A574;"></div>
                         <div class="color-name">裸色</div>
                     </div>
                     
-                    <div class="color-card" data-color="#B8860B" data-name="香槟金">
+                    <div class="color-card" data-image="nail-8.png" data-name="香槟金" data-color="#B8860B">
                         <div class="color-swatch" style="background: #B8860B;"></div>
                         <div class="color-name">香槟金</div>
                     </div>
                     
-                    <div class="color-card" data-color="#8B0000" data-name="深酒红">
+                    <div class="color-card" data-image="nail-9.png" data-name="深酒红" data-color="#8B0000">
                         <div class="color-swatch" style="background: #8B0000;"></div>
                         <div class="color-name">深酒红</div>
                     </div>
                     
-                    <div class="color-card" data-color="#A52A2A" data-name="棕红">
-                        <div class="color-swatch" style="background: #A52A2A;"></div>
-                        <div class="color-name">棕红</div>
+                    <div class="color-card" data-image="nail-10.png" data-name="KKV 经典" data-color="#9B1B30">
+                        <div class="color-swatch" style="background: #9B1B30;"></div>
+                        <div class="color-name">KKV 经典</div>
                     </div>
                 </div>
             </div>
@@ -538,10 +469,7 @@
     </div>
 
     <script>
-        // 颜色选择逻辑
-        let selectedColor = '#9B1B30';
-        let selectedColorName = 'KKV 经典';
-
+        // 图片切换逻辑
         document.querySelectorAll('.color-card').forEach(card => {
             card.addEventListener('click', function() {
                 // 移除其他卡片的选中状态
@@ -550,26 +478,21 @@
                 // 添加当前卡片的选中状态
                 this.classList.add('selected');
                 
-                // 获取颜色值
-                const color = this.dataset.color;
+                // 获取图片和颜色信息
+                const imagePath = this.dataset.image;
                 const name = this.dataset.name;
-                selectedColor = color;
-                selectedColorName = name;
+                const color = this.dataset.color;
                 
-                // 更新所有指甲颜色
-                updateNailColor(color);
+                // 切换图片（带淡入淡出效果）
+                const previewImg = document.getElementById('previewImage');
+                previewImg.classList.add('fade');
+                
+                setTimeout(() => {
+                    previewImg.src = imagePath;
+                    previewImg.classList.remove('fade');
+                }, 150);
             });
         });
-
-        // 更新指甲颜色
-        function updateNailColor(color) {
-            for (let i = 1; i <= 5; i++) {
-                const overlay = document.getElementById(`overlay${i}`);
-                if (overlay) {
-                    overlay.style.backgroundColor = color;
-                }
-            }
-        }
 
         // 选项卡选择效果
         document.querySelectorAll('.option-card').forEach(card => {
@@ -592,13 +515,11 @@
             e.preventDefault();
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
-            data.nailColor = selectedColorName;
+            const selectedCard = document.querySelector('.color-card.selected');
+            const nailColor = selectedCard ? selectedCard.dataset.name : '未选择';
             
-            alert(`感谢提交！\n\n指甲油颜色：${selectedColorName}\n视频时长：${data.duration || '未选择'}\n视频风格：${data.style || '未选择'}\n\n我们会尽快与您联系。`);
+            alert(`感谢提交！\n\n指甲油颜色：${nailColor}\n视频时长：${data.duration || '未选择'}\n视频风格：${data.style || '未选择'}\n\n我们会尽快与您联系。`);
         });
-
-        // 初始化颜色
-        updateNailColor('#9B1B30');
     </script>
 </body>
 </html>
