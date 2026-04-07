@@ -42,27 +42,6 @@
             font-weight: 300;
         }
 
-        .幕 indicator {
-            display: flex;
-            justify-content: center;
-            gap: 10px;
-            margin-bottom: 40px;
-        }
-
-        .幕 indicator-item {
-            padding: 8px 20px;
-            border-radius: 20px;
-            background: #f5f5f5;
-            color: #888;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-
-        .幕 indicator-item.active {
-            background: #1a1a1a;
-            color: #fff;
-        }
-
         .form-section {
             margin-bottom: 50px;
         }
@@ -99,7 +78,7 @@
 
         .foot-svg {
             width: 100%;
-            max-width: 450px;
+            max-width: 550px;
             height: auto;
         }
 
@@ -289,52 +268,95 @@
                 <div class="preview-box">
                     <div class="preview-title">实时预览效果</div>
                     <div class="foot-preview">
-                        <svg class="foot-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                        <svg class="foot-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
                             <defs>
+                                <!-- 皮肤渐变 - 更自然的肤色 -->
                                 <linearGradient id="skinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#f5d5c5;stop-opacity:1" />
+                                    <stop offset="0%" style="stop-color:#f8e0d0;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:#f0d0c0;stop-opacity:1" />
                                     <stop offset="100%" style="stop-color:#e8c4b0;stop-opacity:1" />
                                 </linearGradient>
+                                
+                                <!-- 皮肤阴影 -->
+                                <linearGradient id="skinShadow" x1="0%" y1="0%" x2="0%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#e8c4b0;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#d4a995;stop-opacity:1" />
+                                </linearGradient>
+                                
+                                <!-- 指甲油光泽 -->
+                                <linearGradient id="nailGloss" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:currentColor;stop-opacity:1" />
+                                    <stop offset="50%" style="stop-color:currentColor;stop-opacity:0.9" />
+                                    <stop offset="100%" style="stop-color:currentColor;stop-opacity:0.85" />
+                                </linearGradient>
+                                
+                                <!-- 指甲高光 -->
+                                <radialGradient id="nailHighlight" cx="30%" cy="30%" r="50%">
+                                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.5" />
+                                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
+                                </radialGradient>
                             </defs>
                             
-                            <ellipse cx="200" cy="180" rx="120" ry="80" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="2"/>
-                            
-                            <g class="toe" id="toe1">
-                                <ellipse cx="260" cy="170" rx="35" ry="40" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
-                                <ellipse class="toenail" id="nail1" cx="265" cy="165" rx="22" ry="28" fill="#6B2C3D"/>
-                                <ellipse cx="268" cy="158" rx="8" ry="10" fill="rgba(255,255,255,0.3)"/>
-                            </g>
-                            
-                            <g class="toe" id="toe2">
-                                <ellipse cx="220" cy="155" rx="28" ry="35" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
-                                <ellipse class="toenail" id="nail2" cx="223" cy="150" rx="18" ry="24" fill="#6B2C3D"/>
-                                <ellipse cx="226" cy="144" rx="6" ry="8" fill="rgba(255,255,255,0.3)"/>
-                            </g>
-                            
-                            <g class="toe" id="toe3">
-                                <ellipse cx="185" cy="150" rx="26" ry="32" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
-                                <ellipse class="toenail" id="nail3" cx="187" cy="145" rx="16" ry="22" fill="#6B2C3D"/>
-                                <ellipse cx="190" cy="140" rx="5" ry="7" fill="rgba(255,255,255,0.3)"/>
-                            </g>
-                            
-                            <g class="toe" id="toe4">
-                                <ellipse cx="150" cy="152" rx="24" ry="30" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
-                                <ellipse class="toenail" id="nail4" cx="152" cy="147" rx="15" ry="20" fill="#6B2C3D"/>
-                                <ellipse cx="154" cy="142" rx="5" ry="6" fill="rgba(255,255,255,0.3)"/>
-                            </g>
-                            
-                            <g class="toe" id="toe5">
-                                <ellipse cx="120" cy="160" rx="20" ry="25" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
-                                <ellipse class="toenail" id="nail5" cx="122" cy="155" rx="12" ry="17" fill="#6B2C3D"/>
-                                <ellipse cx="124" cy="151" rx="4" ry="5" fill="rgba(255,255,255,0.3)"/>
+                            <!-- 脚部轮廓 - 更自然的形状 -->
+                            <g id="foot">
+                                <!-- 脚掌主体 -->
+                                <ellipse cx="300" cy="280" rx="140" ry="90" fill="url(#skinGradient)" />
+                                
+                                <!-- 大脚趾 -->
+                                <g class="toe" id="toe1">
+                                    <ellipse cx="420" cy="260" rx="45" ry="55" fill="url(#skinGradient)" />
+                                    <ellipse cx="425" cy="255" rx="28" ry="38" fill="#9B1B30" class="toenail"/>
+                                    <!-- 指甲高光 -->
+                                    <ellipse cx="430" cy="245" rx="10" ry="14" fill="rgba(255,255,255,0.35)"/>
+                                    <ellipse cx="428" cy="250" rx="6" ry="8" fill="rgba(255,255,255,0.2)"/>
+                                </g>
+                                
+                                <!-- 第二脚趾 -->
+                                <g class="toe" id="toe2">
+                                    <ellipse cx="365" cy="235" rx="38" ry="50" fill="url(#skinGradient)" />
+                                    <ellipse cx="368" cy="230" rx="23" ry="33" fill="#9B1B30" class="toenail"/>
+                                    <ellipse cx="372" cy="222" rx="8" ry="12" fill="rgba(255,255,255,0.35)"/>
+                                    <ellipse cx="370" cy="227" rx="5" ry="7" fill="rgba(255,255,255,0.2)"/>
+                                </g>
+                                
+                                <!-- 第三脚趾 -->
+                                <g class="toe" id="toe3">
+                                    <ellipse cx="315" cy="225" rx="35" ry="48" fill="url(#skinGradient)" />
+                                    <ellipse cx="318" cy="220" rx="21" ry="31" fill="#9B1B30" class="toenail"/>
+                                    <ellipse cx="321" cy="213" rx="7" ry="11" fill="rgba(255,255,255,0.35)"/>
+                                    <ellipse cx="319" cy="217" rx="4" ry="6" fill="rgba(255,255,255,0.2)"/>
+                                </g>
+                                
+                                <!-- 第四脚趾 -->
+                                <g class="toe" id="toe4">
+                                    <ellipse cx="265" cy="228" rx="32" ry="45" fill="url(#skinGradient)" />
+                                    <ellipse cx="268" cy="223" rx="19" ry="29" fill="#9B1B30" class="toenail"/>
+                                    <ellipse cx="271" cy="217" rx="6" ry="10" fill="rgba(255,255,255,0.35)"/>
+                                    <ellipse cx="269" cy="220" rx="4" ry="5" fill="rgba(255,255,255,0.2)"/>
+                                </g>
+                                
+                                <!-- 小脚趾 -->
+                                <g class="toe" id="toe5">
+                                    <ellipse cx="220" cy="240" rx="28" ry="40" fill="url(#skinGradient)" />
+                                    <ellipse cx="223" cy="235" rx="16" ry="25" fill="#9B1B30" class="toenail"/>
+                                    <ellipse cx="226" cy="230" rx="5" ry="9" fill="rgba(255,255,255,0.35)"/>
+                                    <ellipse cx="224" cy="233" rx="3" ry="5" fill="rgba(255,255,255,0.2)"/>
+                                </g>
+                                
+                                <!-- 脚趾关节细节 -->
+                                <ellipse cx="420" cy="205" rx="35" ry="8" fill="rgba(200,150,130,0.15)" />
+                                <ellipse cx="365" cy="185" rx="28" ry="7" fill="rgba(200,150,130,0.12)" />
+                                <ellipse cx="315" cy="177" rx="26" ry="6" fill="rgba(200,150,130,0.1)" />
+                                <ellipse cx="265" cy="183" rx="24" ry="6" fill="rgba(200,150,130,0.1)" />
+                                <ellipse cx="220" cy="200" rx="20" ry="5" fill="rgba(200,150,130,0.1)" />
                             </g>
                         </svg>
                     </div>
                 </div>
 
                 <div class="color-grid">
-                    <div class="color-card selected" data-color="#6B2C3D" data-name="KKV 经典">
-                        <div class="color-swatch" style="background: #6B2C3D;"></div>
+                    <div class="color-card selected" data-color="#9B1B30" data-name="KKV 经典">
+                        <div class="color-swatch" style="background: #9B1B30;"></div>
                         <div class="color-name">KKV 经典</div>
                     </div>
                     
@@ -366,11 +388,6 @@
                     <div class="color-card" data-color="#4A7C59" data-name="墨绿">
                         <div class="color-swatch" style="background: #4A7C59;"></div>
                         <div class="color-name">墨绿</div>
-                    </div>
-                    
-                    <div class="color-card" data-color="#2D2D2D" data-name="曜石黑">
-                        <div class="color-swatch" style="background: #2D2D2D;"></div>
-                        <div class="color-name">曜石黑</div>
                     </div>
                     
                     <div class="color-card" data-color="#D4A574" data-name="裸色">
@@ -544,7 +561,7 @@
 
     <script>
         // 颜色选择逻辑
-        let selectedColor = '#6B2C3D';
+        let selectedColor = '#9B1B30';
         let selectedColorName = 'KKV 经典';
 
         document.querySelectorAll('.color-card').forEach(card => {
