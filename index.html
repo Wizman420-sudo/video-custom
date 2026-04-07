@@ -172,7 +172,6 @@
         }
 
         .shoe-item {
-            aspect-ratio: 1;
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
@@ -180,6 +179,11 @@
             transition: all 0.3s ease;
             position: relative;
             background: #f8f9fa;
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px;
         }
 
         .shoe-item:hover {
@@ -195,12 +199,12 @@
         .shoe-item img {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: contain;
             transition: transform 0.3s ease;
         }
 
         .shoe-item:hover img {
-            transform: scale(1.1);
+            transform: scale(1.05);
         }
 
         .shoe-item-number {
@@ -292,6 +296,79 @@
                 flex-direction: column;
                 gap: 15px;
             }
+        }
+
+        /* 大图预览弹窗 */
+        .shoe-preview-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            backdrop-filter: blur(10px);
+            z-index: 10001;
+            justify-content: center;
+            align-items: center;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .shoe-preview-modal.active {
+            display: flex;
+        }
+
+        .shoe-preview-content {
+            position: relative;
+            max-width: 90vw;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .shoe-preview-image {
+            max-width: 90vw;
+            max-height: 80vh;
+            object-fit: contain;
+            border-radius: 12px;
+            box-shadow: 0 30px 100px rgba(0,0,0,0.5);
+        }
+
+        .shoe-preview-close {
+            position: absolute;
+            top: -50px;
+            right: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+
+        .shoe-preview-close:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+
+        .shoe-preview-number {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-top: 20px;
+            font-weight: 500;
+        }
+
+        .shoe-preview-hint {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.9rem;
+            margin-top: 10px;
         }
 
         /* 内容入场动画 */
@@ -1451,12 +1528,12 @@
                         <span style="font-size: 2rem;">👠</span>
                         <div>
                             <div style="font-size: 0.95rem; color: #1a1a1a; font-weight: 500;">Shoes / 鞋子</div>
-                            <div style="font-size: 0.8rem; color: #888;">Choose from 46 styles</div>
+                            <div style="font-size: 0.8rem; color: #888;">Choose from 46 styles - Free!</div>
                         </div>
                     </div>
                     <div style="text-align: right;">
-                        <div style="font-size: 1.3rem; font-weight: 600; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">+$38 / +¥198</div>
-                        <div style="font-size: 0.75rem; color: #888;">Additional Fee / 额外费用</div>
+                        <div style="font-size: 1.3rem; font-weight: 600; color: #22c55e;">✓ 免费 / Free</div>
+                        <div style="font-size: 0.75rem; color: #888;">Included in base price</div>
                     </div>
                 </div>
                 
@@ -1574,6 +1651,16 @@ Please describe your video requirements in detail, including key points, special
         </div>
     </div>
 
+    <!-- 大图预览弹窗 -->
+    <div class="shoe-preview-modal" id="shoePreviewModal">
+        <div class="shoe-preview-content">
+            <button class="shoe-preview-close" onclick="closeShoePreview()">×</button>
+            <img class="shoe-preview-image" id="shoePreviewImage" src="" alt="Shoe Preview">
+            <div class="shoe-preview-number" id="shoePreviewNumber"></div>
+            <div class="shoe-preview-hint">点击任意位置关闭 / Click anywhere to close</div>
+        </div>
+    </div>
+
     <script>
         // 价格配置
         const BASE_PRICE_USD = 128;
@@ -1602,11 +1689,11 @@ Please describe your video requirements in detail, including key points, special
 
         // 更新价格显示
         function updatePrice() {
-            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD + currentShoePriceUSD;
-            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentShoePriceCNY;
+            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD;
+            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY;
             
             console.log('Updating price - Total USD:', totalUSD, 'Total CNY:', totalCNY);
-            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Nail:', currentNailPriceUSD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD, 'Shoe:', currentShoePriceUSD);
+            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Nail:', currentNailPriceUSD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD);
             
             document.getElementById('priceUsd').textContent = '$' + totalUSD;
             document.getElementById('priceCny').textContent = '¥' + totalCNY;
@@ -1646,14 +1733,7 @@ Please describe your video requirements in detail, including key points, special
                 `;
             }
             
-            if (currentShoePriceUSD > 0) {
-                breakdown += `
-                    <div class="price-breakdown-item">
-                        <span>鞋子 / Shoes (${selectedShoeName || '未选择'})</span>
-                        <span>+$${SHOE_PRICE_USD} / +¥${SHOE_PRICE_CNY}</span>
-                    </div>
-                `;
-            }
+            // 鞋子免费，不显示在价格明细中
             
             document.getElementById('priceBreakdown').innerHTML = breakdown;
         }
@@ -1820,7 +1900,6 @@ ${data.company ? data.company : ''}`;
             for (let i = 1; i <= 46; i++) {
                 const shoeItem = document.createElement('div');
                 shoeItem.className = 'shoe-item';
-                shoeItem.onclick = () => selectShoe(i);
                 
                 const img = document.createElement('img');
                 img.src = `shoes/shoe-${String(i).padStart(2, '0')}.png`;
@@ -1830,6 +1909,35 @@ ${data.company ? data.company : ''}`;
                 const number = document.createElement('div');
                 number.className = 'shoe-item-number';
                 number.textContent = `#${i}`;
+                
+                // 点击鞋子 - 选择
+                shoeItem.onclick = (e) => {
+                    e.stopPropagation();
+                    selectShoe(i);
+                };
+                
+                // 双击或长按预览大图
+                shoeItem.ondblclick = (e) => {
+                    e.stopPropagation();
+                    openShoePreview(i);
+                };
+                
+                // 移动端长按预览
+                let longPressTimer;
+                shoeItem.addEventListener('touchstart', (e) => {
+                    e.stopPropagation();
+                    longPressTimer = setTimeout(() => {
+                        openShoePreview(i);
+                    }, 500);
+                });
+                shoeItem.addEventListener('touchend', (e) => {
+                    e.stopPropagation();
+                    clearTimeout(longPressTimer);
+                });
+                shoeItem.addEventListener('touchmove', (e) => {
+                    e.stopPropagation();
+                    clearTimeout(longPressTimer);
+                });
                 
                 shoeItem.appendChild(img);
                 shoeItem.appendChild(number);
@@ -1864,14 +1972,37 @@ ${data.company ? data.company : ''}`;
             document.getElementById('selectedShoeName').textContent = selectedShoeName;
             document.getElementById('shoeInput').value = selectedShoeId.toString();
             
-            // 更新价格
-            currentShoePriceUSD = SHOE_PRICE_USD;
-            currentShoePriceCNY = SHOE_PRICE_CNY;
-            updatePrice();
+            // 鞋子免费，不更新价格
+            // currentShoePriceUSD = SHOE_PRICE_USD;
+            // currentShoePriceCNY = SHOE_PRICE_CNY;
+            // updatePrice();
             
             // 关闭弹窗
             closeShoeModal();
         }
+
+        function openShoePreview(id) {
+            const modal = document.getElementById('shoePreviewModal');
+            const img = document.getElementById('shoePreviewImage');
+            const number = document.getElementById('shoePreviewNumber');
+            
+            img.src = `shoes/shoe-${String(id).padStart(2, '0')}.png`;
+            number.textContent = `鞋子 #${id} / Shoe #${id}`;
+            
+            modal.classList.add('active');
+        }
+
+        function closeShoePreview() {
+            document.getElementById('shoePreviewModal').classList.remove('active');
+        }
+
+        // 点击背景关闭大图预览
+        document.addEventListener('click', function(e) {
+            const previewModal = document.getElementById('shoePreviewModal');
+            if (e.target === previewModal) {
+                closeShoePreview();
+            }
+        });
 
         // 初始化价格
         updatePrice();
