@@ -859,19 +859,182 @@
 
         @media (max-width: 600px) {
             .container {
-                padding: 40px 15px;
+                padding: 30px 15px;
+            }
+
+            header {
+                padding: 25px 15px;
+                margin-bottom: 40px;
             }
 
             h1 {
-                font-size: 2rem;
+                font-size: 1.8rem;
+                letter-spacing: 1px;
             }
 
+            .subtitle {
+                font-size: 0.9rem;
+            }
+
+            /* 移动端价格表优化 */
+            .price-box {
+                padding: 20px 15px !important;
+                margin-bottom: 30px !important;
+                top: 10px !important;
+                border-radius: 14px !important;
+            }
+
+            .price-title {
+                font-size: 0.75rem !important;
+                margin-bottom: 12px !important;
+            }
+
+            .price-amount {
+                gap: 25px !important;
+            }
+
+            .price-usd, .price-cny {
+                font-size: 2rem !important;
+            }
+
+            .price-usd-label, .price-cny-label {
+                font-size: 0.8rem !important;
+            }
+
+            .price-breakdown {
+                margin-top: 15px !important;
+                padding-top: 15px !important;
+                font-size: 0.75rem !important;
+                max-width: 100% !important;
+            }
+
+            .price-breakdown-item {
+                padding: 6px 10px !important;
+                margin-bottom: 6px !important;
+                font-size: 0.75rem !important;
+            }
+
+            /* 指甲油价格标签移动端优化 */
+            .form-section > div[style*="gradient"] {
+                padding: 12px 18px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .form-section > div[style*="gradient"] span[style*="2rem"] {
+                font-size: 1.5rem !important;
+            }
+
+            .form-section > div[style*="gradient"] div[style*="1.3rem"] {
+                font-size: 1.1rem !important;
+            }
+
+            /* 预览框优化 */
+            .preview-box {
+                padding: 25px 15px !important;
+                margin-bottom: 20px !important;
+            }
+
+            .preview-title {
+                font-size: 0.9rem !important;
+                margin-bottom: 15px !important;
+            }
+
+            /* 颜色卡片优化 */
             .color-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(4, 1fr) !important;
+                gap: 12px !important;
+            }
+
+            .color-swatch {
+                width: 55px !important;
+                height: 55px !important;
+            }
+
+            .color-name {
+                font-size: 0.75rem !important;
+            }
+
+            /* Section 优化 */
+            .form-section {
+                margin-bottom: 35px !important;
+                padding: 20px 15px !important;
+                border-radius: 14px !important;
+            }
+
+            .section-title {
+                font-size: 1.1rem !important;
+                margin-bottom: 20px !important;
+                padding-bottom: 12px !important;
+            }
+
+            /* 版权/露脸卡片优化 */
+            .copyright-box, .facecam-box {
+                padding: 25px 15px !important;
+                margin-bottom: 25px !important;
+                border-radius: 14px !important;
+            }
+
+            .copyright-title, .facecam-title {
+                font-size: 1.1rem !important;
+            }
+
+            .copyright-title-en, .facecam-title-en {
+                font-size: 0.85rem !important;
+            }
+
+            .copyright-price, .facecam-price {
+                font-size: 1.5rem !important;
+            }
+
+            .copyright-price-en, .facecam-price-en {
+                font-size: 0.9rem !important;
+            }
+
+            .copyright-desc, .facecam-desc {
+                padding: 12px !important;
+                font-size: 0.85rem !important;
+            }
+
+            .copyright-buttons, .facecam-buttons {
+                gap: 12px !important;
+            }
+
+            .copyright-btn, .facecam-btn {
+                padding: 12px 30px !important;
+                font-size: 0.9rem !important;
+            }
+
+            .facecam-warning {
+                padding: 12px 15px !important;
+                font-size: 0.8rem !important;
+            }
+
+            /* 联系方式优化 */
+            a[style*="min-width"] {
+                min-width: 100% !important;
+                padding: 15px 20px !important;
+            }
+
+            /* 输入框优化 */
+            .text-input {
+                padding: 14px 16px !important;
+                font-size: 0.95rem !important;
+            }
+
+            textarea.text-input {
+                min-height: 100px !important;
+            }
+
+            /* 提交按钮优化 */
+            .submit-btn {
+                padding: 18px !important;
+                font-size: 1rem !important;
+                margin-top: 35px !important;
+                border-radius: 12px !important;
             }
 
             .option-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: 1fr !important;
             }
 
             .copyright-buttons {
