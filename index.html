@@ -98,10 +98,13 @@
             align-items: center;
             cursor: pointer;
             transition: transform 0.2s ease;
+            position: relative;
+            z-index: 1;
         }
 
         .color-card:hover {
             transform: scale(1.08);
+            z-index: 2;
         }
 
         .color-swatch {
@@ -485,9 +488,9 @@
             padding: 30px;
             text-align: center;
             color: #fff;
-            margin-bottom: 30px;
-            position: sticky;
-            top: 20px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 100;
         }
 
         .price-title {
