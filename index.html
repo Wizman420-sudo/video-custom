@@ -242,6 +242,13 @@
             background: #fff;
             color: #667eea;
             border-color: #fff;
+            box-shadow: 0 4px 20px rgba(255,255,255,0.4);
+        }
+
+        .copyright-btn:not(.selected) {
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+            border-color: rgba(255,255,255,0.3);
         }
 
         /* 普通选项网格 */
@@ -512,13 +519,16 @@ Company Name (Optional)">
             const noBtn = document.querySelector('.copyright-btn-no');
             const input = document.getElementById('copyrightInput');
             
+            // 移除所有选中状态
+            yesBtn.classList.remove('selected');
+            noBtn.classList.remove('selected');
+            
+            // 添加当前选中状态
             if (isYes) {
                 yesBtn.classList.add('selected');
-                noBtn.classList.remove('selected');
                 input.value = 'true';
             } else {
                 noBtn.classList.add('selected');
-                yesBtn.classList.remove('selected');
                 input.value = 'false';
             }
         }
