@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>视频定制 | Video Custom</title>
+    <title>视频定制 | KKV 系列</title>
     <style>
         * {
             margin: 0;
@@ -19,14 +19,14 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 900px;
             margin: 0 auto;
             padding: 60px 20px;
         }
 
         header {
             text-align: center;
-            margin-bottom: 60px;
+            margin-bottom: 50px;
         }
 
         h1 {
@@ -42,22 +42,132 @@
             font-weight: 300;
         }
 
-        .form-section {
+        .幕 indicator {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
             margin-bottom: 40px;
         }
 
+        .幕 indicator-item {
+            padding: 8px 20px;
+            border-radius: 20px;
+            background: #f5f5f5;
+            color: #888;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .幕 indicator-item.active {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        .form-section {
+            margin-bottom: 50px;
+        }
+
         .section-title {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             font-weight: 400;
             color: #333;
-            margin-bottom: 20px;
-            padding-bottom: 10px;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
 
+        /* 脚趾甲预览区域 */
+        .preview-box {
+            background: #fafafa;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .preview-title {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .foot-preview {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .foot-svg {
+            width: 100%;
+            max-width: 450px;
+            height: auto;
+        }
+
+        .toenail {
+            transition: fill 0.3s ease;
+        }
+
+        /* 颜色选择网格 */
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 20px;
+            justify-items: center;
+        }
+
+        .color-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .color-card:hover {
+            transform: scale(1.08);
+        }
+
+        .color-swatch {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid transparent;
+            transition: border-color 0.3s ease;
+        }
+
+        .color-swatch::after {
+            content: '';
+            position: absolute;
+            top: 12%;
+            left: 20%;
+            width: 30%;
+            height: 20%;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            transform: rotate(-30deg);
+        }
+
+        .color-card.selected .color-swatch {
+            border-color: #1a1a1a;
+        }
+
+        .color-name {
+            font-size: 0.85rem;
+            color: #333;
+            text-align: center;
+        }
+
+        /* 普通选项网格 */
         .option-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 15px;
         }
 
@@ -154,6 +264,10 @@
                 font-size: 2rem;
             }
 
+            .color-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+
             .option-grid {
                 grid-template-columns: 1fr;
             }
@@ -164,40 +278,126 @@
     <div class="container">
         <header>
             <h1>视频定制</h1>
-            <p class="subtitle">Video Customization Service</p>
+            <p class="subtitle">KKV 系列 · 脚趾甲特写</p>
         </header>
 
         <form id="customForm">
-            <!-- 视频类型 -->
+            <!-- 第一幕：指甲油颜色选择 -->
             <div class="form-section">
-                <h2 class="section-title">视频类型</h2>
-                <div class="option-grid">
-                    <label class="option-card">
-                        <input type="radio" name="videoType" value="promo" required>
-                        <div class="option-label">宣传片</div>
-                        <div class="option-price">Promotional Video</div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="videoType" value="tutorial">
-                        <div class="option-label">教程视频</div>
-                        <div class="option-price">Tutorial Video</div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="videoType" value="event">
-                        <div class="option-label">活动记录</div>
-                        <div class="option-price">Event Coverage</div>
-                    </label>
-                    <label class="option-card">
-                        <input type="radio" name="videoType" value="product">
-                        <div class="option-label">产品展示</div>
-                        <div class="option-price">Product Demo</div>
-                    </label>
+                <h2 class="section-title">第一幕：选择指甲油颜色</h2>
+                
+                <div class="preview-box">
+                    <div class="preview-title">实时预览效果</div>
+                    <div class="foot-preview">
+                        <svg class="foot-svg" viewBox="0 0 400 300" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="skinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" style="stop-color:#f5d5c5;stop-opacity:1" />
+                                    <stop offset="100%" style="stop-color:#e8c4b0;stop-opacity:1" />
+                                </linearGradient>
+                            </defs>
+                            
+                            <ellipse cx="200" cy="180" rx="120" ry="80" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="2"/>
+                            
+                            <g class="toe" id="toe1">
+                                <ellipse cx="260" cy="170" rx="35" ry="40" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
+                                <ellipse class="toenail" id="nail1" cx="265" cy="165" rx="22" ry="28" fill="#6B2C3D"/>
+                                <ellipse cx="268" cy="158" rx="8" ry="10" fill="rgba(255,255,255,0.3)"/>
+                            </g>
+                            
+                            <g class="toe" id="toe2">
+                                <ellipse cx="220" cy="155" rx="28" ry="35" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
+                                <ellipse class="toenail" id="nail2" cx="223" cy="150" rx="18" ry="24" fill="#6B2C3D"/>
+                                <ellipse cx="226" cy="144" rx="6" ry="8" fill="rgba(255,255,255,0.3)"/>
+                            </g>
+                            
+                            <g class="toe" id="toe3">
+                                <ellipse cx="185" cy="150" rx="26" ry="32" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
+                                <ellipse class="toenail" id="nail3" cx="187" cy="145" rx="16" ry="22" fill="#6B2C3D"/>
+                                <ellipse cx="190" cy="140" rx="5" ry="7" fill="rgba(255,255,255,0.3)"/>
+                            </g>
+                            
+                            <g class="toe" id="toe4">
+                                <ellipse cx="150" cy="152" rx="24" ry="30" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
+                                <ellipse class="toenail" id="nail4" cx="152" cy="147" rx="15" ry="20" fill="#6B2C3D"/>
+                                <ellipse cx="154" cy="142" rx="5" ry="6" fill="rgba(255,255,255,0.3)"/>
+                            </g>
+                            
+                            <g class="toe" id="toe5">
+                                <ellipse cx="120" cy="160" rx="20" ry="25" fill="url(#skinGradient)" stroke="#d4a995" stroke-width="1.5"/>
+                                <ellipse class="toenail" id="nail5" cx="122" cy="155" rx="12" ry="17" fill="#6B2C3D"/>
+                                <ellipse cx="124" cy="151" rx="4" ry="5" fill="rgba(255,255,255,0.3)"/>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="color-grid">
+                    <div class="color-card selected" data-color="#6B2C3D" data-name="KKV 经典">
+                        <div class="color-swatch" style="background: #6B2C3D;"></div>
+                        <div class="color-name">KKV 经典</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#C41E3A" data-name="酒红">
+                        <div class="color-swatch" style="background: #C41E3A;"></div>
+                        <div class="color-name">酒红</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#8B1538" data-name="复古红">
+                        <div class="color-swatch" style="background: #8B1538;"></div>
+                        <div class="color-name">复古红</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#DC143C" data-name="胭脂红">
+                        <div class="color-swatch" style="background: #DC143C;"></div>
+                        <div class="color-name">胭脂红</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#FF9A8B" data-name="珊瑚粉">
+                        <div class="color-swatch" style="background: #FF9A8B;"></div>
+                        <div class="color-name">珊瑚粉</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#FF6B9D" data-name="樱花粉">
+                        <div class="color-swatch" style="background: #FF6B9D;"></div>
+                        <div class="color-name">樱花粉</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#4A7C59" data-name="墨绿">
+                        <div class="color-swatch" style="background: #4A7C59;"></div>
+                        <div class="color-name">墨绿</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#2D2D2D" data-name="曜石黑">
+                        <div class="color-swatch" style="background: #2D2D2D;"></div>
+                        <div class="color-name">曜石黑</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#D4A574" data-name="裸色">
+                        <div class="color-swatch" style="background: #D4A574;"></div>
+                        <div class="color-name">裸色</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#B8860B" data-name="香槟金">
+                        <div class="color-swatch" style="background: #B8860B;"></div>
+                        <div class="color-name">香槟金</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#8B0000" data-name="深酒红">
+                        <div class="color-swatch" style="background: #8B0000;"></div>
+                        <div class="color-name">深酒红</div>
+                    </div>
+                    
+                    <div class="color-card" data-color="#A52A2A" data-name="棕红">
+                        <div class="color-swatch" style="background: #A52A2A;"></div>
+                        <div class="color-name">棕红</div>
+                    </div>
                 </div>
             </div>
 
-            <!-- 视频时长 -->
+            <!-- 第二幕：视频时长 -->
             <div class="form-section">
-                <h2 class="section-title">视频时长</h2>
+                <h2 class="section-title">第二幕：视频时长</h2>
                 <div class="option-grid">
                     <label class="option-card">
                         <input type="radio" name="duration" value="15s" required>
@@ -222,9 +422,9 @@
                 </div>
             </div>
 
-            <!-- 视频风格 -->
+            <!-- 第三幕：视频风格 -->
             <div class="form-section">
-                <h2 class="section-title">视频风格</h2>
+                <h2 class="section-title">第三幕：视频风格</h2>
                 <div class="option-grid">
                     <label class="option-card">
                         <input type="radio" name="style" value="minimal" required>
@@ -249,9 +449,9 @@
                 </div>
             </div>
 
-            <!-- 分辨率 -->
+            <!-- 第四幕：分辨率 -->
             <div class="form-section">
-                <h2 class="section-title">输出分辨率</h2>
+                <h2 class="section-title">第四幕：输出分辨率</h2>
                 <div class="option-grid">
                     <label class="option-card">
                         <input type="radio" name="resolution" value="1080p" required>
@@ -271,9 +471,9 @@
                 </div>
             </div>
 
-            <!-- 配乐 -->
+            <!-- 第五幕：配乐 -->
             <div class="form-section">
-                <h2 class="section-title">配乐选择</h2>
+                <h2 class="section-title">第五幕：配乐选择</h2>
                 <div class="option-grid">
                     <label class="option-card">
                         <input type="radio" name="music" value="upbeat" required>
@@ -343,6 +543,39 @@
     </div>
 
     <script>
+        // 颜色选择逻辑
+        let selectedColor = '#6B2C3D';
+        let selectedColorName = 'KKV 经典';
+
+        document.querySelectorAll('.color-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // 移除其他卡片的选中状态
+                document.querySelectorAll('.color-card').forEach(c => c.classList.remove('selected'));
+                
+                // 添加当前卡片的选中状态
+                this.classList.add('selected');
+                
+                // 获取颜色值
+                const color = this.dataset.color;
+                const name = this.dataset.name;
+                selectedColor = color;
+                selectedColorName = name;
+                
+                // 更新所有脚趾甲颜色
+                updateToenailColor(color);
+            });
+        });
+
+        // 更新脚趾甲颜色
+        function updateToenailColor(color) {
+            for (let i = 1; i <= 5; i++) {
+                const nail = document.getElementById(`nail${i}`);
+                if (nail) {
+                    nail.style.fill = color;
+                }
+            }
+        }
+
         // 选项卡选择效果
         document.querySelectorAll('.option-card').forEach(card => {
             card.addEventListener('click', function(e) {
@@ -362,8 +595,11 @@
         // 表单提交
         document.getElementById('customForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            alert('感谢您的需求提交！我们会尽快与您联系。');
-            // 这里可以添加实际的提交逻辑
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData.entries());
+            data.nailColor = selectedColorName;
+            
+            alert(`感谢提交！\n\n指甲油颜色：${selectedColorName}\n视频时长：${data.duration || '未选择'}\n视频风格：${data.style || '未选择'}\n\n我们会尽快与您联系。`);
         });
     </script>
 </body>
