@@ -251,6 +251,135 @@
             border-color: rgba(255,255,255,0.3);
         }
 
+        .copyright-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* 露脸选择区域 */
+        .facecam-box {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            border-radius: 16px;
+            padding: 40px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .facecam-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .facecam-title-en {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .facecam-price {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .facecam-price-en {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .facecam-desc {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .facecam-desc p {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .facecam-desc p:last-child {
+            margin-bottom: 0;
+        }
+
+        .facecam-desc-en {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .facecam-warning {
+            background: rgba(255,255,255,0.2);
+            border-left: 4px solid #fff;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        .facecam-warning strong {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .facecam-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .facecam-btn {
+            padding: 15px 50px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .facecam-btn-yes {
+            background: #fff;
+            color: #f5576c;
+        }
+
+        .facecam-btn-yes:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,255,255,0.3);
+        }
+
+        .facecam-btn-no {
+            background: transparent;
+            color: #fff;
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .facecam-btn-no:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #fff;
+        }
+
+        .facecam-btn.selected {
+            background: #fff;
+            color: #f5576c;
+            border-color: #fff;
+        }
+
+        .facecam-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
         /* 普通选项网格 */
         .option-grid {
             display: grid;
@@ -558,6 +687,55 @@
                 </div>
             </div>
 
+            <!-- 第三幕：露脸选择 -->
+            <div class="form-section">
+                <h2 class="section-title">第三幕：露脸选项</h2>
+                
+                <div class="facecam-box">
+                    <div class="facecam-title">是否需要露脸出镜？</div>
+                    <div class="facecam-title-en">Would you like to appear on camera?</div>
+                    
+                    <div class="facecam-price">$148 / ¥888</div>
+                    <div class="facecam-price-en">Face Appearance Fee</div>
+                    
+                    <div class="facecam-desc">
+                        <p>
+                            <strong>✓ 真人出镜</strong>
+                            <span class="facecam-desc-en">Real Person Appearance</span>
+                        </p>
+                        <p>
+                            专业模特将出现在视频中，增加真实感和亲和力。
+                            <span class="facecam-desc-en">Professional model will appear in the video for authenticity and appeal.</span>
+                        </p>
+                        <p>
+                            <strong>✓ 高质量拍摄</strong>
+                            <span class="facecam-desc-en">High Quality Production</span>
+                        </p>
+                        <p>
+                            专业灯光、化妆和后期处理，确保最佳视觉效果。
+                            <span class="facecam-desc-en">Professional lighting, makeup and post-production for best visual results.</span>
+                        </p>
+                    </div>
+                    
+                    <div class="facecam-warning">
+                        <strong>⚠️ 重要提示 / Important Notice</strong>
+                        选择露脸出镜需要强制购买独家版权。
+                        <span class="facecam-desc-en">Face appearance requires exclusive copyright purchase.</span>
+                    </div>
+                    
+                    <div class="facecam-buttons">
+                        <button type="button" class="facecam-btn facecam-btn-yes" onclick="selectFacecam(true)" id="facecamYesBtn">
+                            是 / Yes
+                        </button>
+                        <button type="button" class="facecam-btn facecam-btn-no selected" onclick="selectFacecam(false)" id="facecamNoBtn">
+                            否 / No
+                        </button>
+                    </div>
+                    
+                    <input type="hidden" name="facecam" id="facecamInput" value="false">
+                </div>
+            </div>
+
             <!-- 需求描述 -->
             <div class="form-section">
                 <h2 class="section-title">需求描述</h2>
@@ -629,12 +807,17 @@ Please describe your video requirements in detail, including key points, special
         const NAIL_PRICE_CNY = 128;
         const COPYRIGHT_PRICE_USD = 38;
         const COPYRIGHT_PRICE_CNY = 178;
+        const FACECAM_PRICE_USD = 148;
+        const FACECAM_PRICE_CNY = 888;
 
         // 当前选择状态
         let currentNailPriceUSD = 0;
         let currentNailPriceCNY = 0;
         let currentCopyrightUSD = 0;
         let currentCopyrightCNY = 0;
+        let currentFacecamUSD = 0;
+        let currentFacecamCNY = 0;
+        let isCopyrightPurchased = false;
 
         // 更新价格显示
         function updatePrice() {
@@ -666,6 +849,15 @@ Please describe your video requirements in detail, including key points, special
                     <div class="price-breakdown-item">
                         <span>独家版权 / Exclusive Copyright</span>
                         <span>+$${COPYRIGHT_PRICE_USD} / +¥${COPYRIGHT_PRICE_CNY}</span>
+                    </div>
+                `;
+            }
+            
+            if (currentFacecamUSD > 0) {
+                breakdown += `
+                    <div class="price-breakdown-item">
+                        <span>露脸出镜 / Face Appearance</span>
+                        <span>+$${FACECAM_PRICE_USD} / +¥${FACECAM_PRICE_CNY}</span>
                     </div>
                 `;
             }
@@ -714,6 +906,7 @@ Please describe your video requirements in detail, including key points, special
             const yesBtn = document.querySelector('.copyright-btn-yes');
             const noBtn = document.querySelector('.copyright-btn-no');
             const input = document.getElementById('copyrightInput');
+            const facecamYesBtn = document.getElementById('facecamYesBtn');
             
             // 移除所有选中状态
             yesBtn.classList.remove('selected');
@@ -725,11 +918,52 @@ Please describe your video requirements in detail, including key points, special
                 input.value = 'true';
                 currentCopyrightUSD = COPYRIGHT_PRICE_USD;
                 currentCopyrightCNY = COPYRIGHT_PRICE_CNY;
+                isCopyrightPurchased = true;
+                // 启用露脸按钮
+                facecamYesBtn.disabled = false;
             } else {
                 noBtn.classList.add('selected');
                 input.value = 'false';
                 currentCopyrightUSD = 0;
                 currentCopyrightCNY = 0;
+                isCopyrightPurchased = false;
+                // 禁用露脸选择，重置为否
+                facecamYesBtn.disabled = true;
+                if (document.getElementById('facecamInput').value === 'true') {
+                    selectFacecam(false);
+                }
+            }
+            
+            updatePrice();
+        }
+
+        // 露脸选择
+        function selectFacecam(isYes) {
+            const yesBtn = document.getElementById('facecamYesBtn');
+            const noBtn = document.getElementById('facecamNoBtn');
+            const input = document.getElementById('facecamInput');
+            
+            // 检查是否购买版权
+            if (isYes && !isCopyrightPurchased) {
+                alert('⚠️ 选择露脸出镜需要先购买独家版权。\n\n⚠️ Face appearance requires exclusive copyright purchase.\n\n请先选择"版权选项"中的"是 / Yes"。\nPlease select "Yes" in the Copyright section first.');
+                return;
+            }
+            
+            // 移除所有选中状态
+            yesBtn.classList.remove('selected');
+            noBtn.classList.remove('selected');
+            
+            // 添加当前选中状态
+            if (isYes) {
+                yesBtn.classList.add('selected');
+                input.value = 'true';
+                currentFacecamUSD = FACECAM_PRICE_USD;
+                currentFacecamCNY = FACECAM_PRICE_CNY;
+            } else {
+                noBtn.classList.add('selected');
+                input.value = 'false';
+                currentFacecamUSD = 0;
+                currentFacecamCNY = 0;
             }
             
             updatePrice();
@@ -743,13 +977,15 @@ Please describe your video requirements in detail, including key points, special
             const selectedCard = document.querySelector('.color-card.selected');
             const nailColor = selectedCard ? selectedCard.dataset.name : '未选择';
             const copyright = data.copyright === 'true' ? '是 / Yes' : '否 / No';
-            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD;
-            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY;
+            const facecam = data.facecam === 'true' ? '是 / Yes' : '否 / No';
+            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD;
+            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY;
             
             alert(`感谢提交！/ Thank you for your submission!
 
 指甲油颜色 / Nail Color: ${nailColor}
 版权购买 / Copyright: ${copyright}
+露脸出镜 / Face Appearance: ${facecam}
 总计 / Total: $${totalUSD} / ¥${totalCNY}
 
 我们会尽快与您联系。
@@ -758,6 +994,9 @@ We will contact you soon.`);
 
         // 初始化价格
         updatePrice();
+        
+        // 初始化露脸按钮状态（禁用）
+        document.getElementById('facecamYesBtn').disabled = true;
     </script>
 </body>
 </html>
