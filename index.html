@@ -342,6 +342,76 @@
             transform: translateY(0);
         }
 
+        /* 价格显示区域 */
+        .price-box {
+            background: linear-gradient(135deg, #1a1a1a 0%, #333 100%);
+            border-radius: 16px;
+            padding: 30px;
+            text-align: center;
+            color: #fff;
+            margin-bottom: 30px;
+            position: sticky;
+            top: 20px;
+        }
+
+        .price-title {
+            font-size: 0.9rem;
+            color: #aaa;
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .price-amount {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .price-usd {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .price-usd-label {
+            font-size: 1rem;
+            color: #aaa;
+            margin-left: 5px;
+        }
+
+        .price-cny {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .price-cny-label {
+            font-size: 1rem;
+            color: #aaa;
+            margin-left: 5px;
+        }
+
+        .price-breakdown {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            font-size: 0.85rem;
+            color: #ccc;
+        }
+
+        .price-breakdown-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .price-breakdown-item:last-child {
+            margin-bottom: 0;
+        }
+
         @media (max-width: 600px) {
             .container {
                 padding: 40px 15px;
@@ -375,6 +445,27 @@
             <h1>视频定制</h1>
             <p class="subtitle">KKV 系列 · 脚趾甲特写</p>
         </header>
+
+        <!-- 价格显示 -->
+        <div class="price-box">
+            <div class="price-title">Total Amount / 总计</div>
+            <div class="price-amount">
+                <div>
+                    <span class="price-usd" id="priceUsd">$128</span>
+                    <span class="price-usd-label">USD</span>
+                </div>
+                <div>
+                    <span class="price-cny" id="priceCny">¥666</span>
+                    <span class="price-cny-label">CNY</span>
+                </div>
+            </div>
+            <div class="price-breakdown" id="priceBreakdown">
+                <div class="price-breakdown-item">
+                    <span>基础价格 / Base Price</span>
+                    <span>$128 / ¥666</span>
+                </div>
+            </div>
+        </div>
 
         <form id="customForm">
             <!-- 第一幕：指甲油颜色选择 -->
@@ -531,6 +622,57 @@ Please describe your video requirements in detail, including key points, special
     </div>
 
     <script>
+        // 价格配置
+        const BASE_PRICE_USD = 128;
+        const BASE_PRICE_CNY = 666;
+        const NAIL_PRICE_USD = 28;
+        const NAIL_PRICE_CNY = 128;
+        const COPYRIGHT_PRICE_USD = 38;
+        const COPYRIGHT_PRICE_CNY = 178;
+
+        // 当前选择状态
+        let currentNailPriceUSD = 0;
+        let currentNailPriceCNY = 0;
+        let currentCopyrightUSD = 0;
+        let currentCopyrightCNY = 0;
+
+        // 更新价格显示
+        function updatePrice() {
+            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD;
+            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY;
+            
+            document.getElementById('priceUsd').textContent = '$' + totalUSD;
+            document.getElementById('priceCny').textContent = '¥' + totalCNY;
+            
+            // 更新明细
+            let breakdown = `
+                <div class="price-breakdown-item">
+                    <span>基础价格 / Base Price</span>
+                    <span>$${BASE_PRICE_USD} / ¥${BASE_PRICE_CNY}</span>
+                </div>
+            `;
+            
+            if (currentNailPriceUSD > 0) {
+                breakdown += `
+                    <div class="price-breakdown-item">
+                        <span>美甲颜色 / Nail Polish</span>
+                        <span>+$${NAIL_PRICE_USD} / +¥${NAIL_PRICE_CNY}</span>
+                    </div>
+                `;
+            }
+            
+            if (currentCopyrightUSD > 0) {
+                breakdown += `
+                    <div class="price-breakdown-item">
+                        <span>独家版权 / Exclusive Copyright</span>
+                        <span>+$${COPYRIGHT_PRICE_USD} / +¥${COPYRIGHT_PRICE_CNY}</span>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('priceBreakdown').innerHTML = breakdown;
+        }
+
         // 图片切换逻辑
         document.querySelectorAll('.color-card').forEach(card => {
             card.addEventListener('click', function() {
@@ -553,6 +695,17 @@ Please describe your video requirements in detail, including key points, special
                     previewImg.src = imagePath;
                     previewImg.classList.remove('fade');
                 }, 150);
+                
+                // 更新美甲价格（"无需美甲"不加价）
+                if (name === '无需美甲') {
+                    currentNailPriceUSD = 0;
+                    currentNailPriceCNY = 0;
+                } else {
+                    currentNailPriceUSD = NAIL_PRICE_USD;
+                    currentNailPriceCNY = NAIL_PRICE_CNY;
+                }
+                
+                updatePrice();
             });
         });
 
@@ -570,10 +723,16 @@ Please describe your video requirements in detail, including key points, special
             if (isYes) {
                 yesBtn.classList.add('selected');
                 input.value = 'true';
+                currentCopyrightUSD = COPYRIGHT_PRICE_USD;
+                currentCopyrightCNY = COPYRIGHT_PRICE_CNY;
             } else {
                 noBtn.classList.add('selected');
                 input.value = 'false';
+                currentCopyrightUSD = 0;
+                currentCopyrightCNY = 0;
             }
+            
+            updatePrice();
         }
 
         // 表单提交
@@ -584,15 +743,21 @@ Please describe your video requirements in detail, including key points, special
             const selectedCard = document.querySelector('.color-card.selected');
             const nailColor = selectedCard ? selectedCard.dataset.name : '未选择';
             const copyright = data.copyright === 'true' ? '是 / Yes' : '否 / No';
+            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD;
+            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY;
             
             alert(`感谢提交！/ Thank you for your submission!
 
 指甲油颜色 / Nail Color: ${nailColor}
 版权购买 / Copyright: ${copyright}
+总计 / Total: $${totalUSD} / ¥${totalCNY}
 
 我们会尽快与您联系。
 We will contact you soon.`);
         });
+
+        // 初始化价格
+        updatePrice();
     </script>
 </body>
 </html>
