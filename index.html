@@ -370,9 +370,16 @@
         }
 
         .facecam-btn.selected {
-            background: #fff;
-            color: #f5576c;
-            border-color: #fff;
+            background: #fff !important;
+            color: #f5576c !important;
+            border-color: #fff !important;
+            box-shadow: 0 4px 20px rgba(255,255,255,0.4);
+        }
+
+        .facecam-btn:not(.selected) {
+            background: rgba(255,255,255,0.1) !important;
+            color: rgba(255,255,255,0.6) !important;
+            border-color: rgba(255,255,255,0.2) !important;
         }
 
         .facecam-btn:disabled {
@@ -942,9 +949,6 @@ Please describe your video requirements in detail, including key points, special
 
         // 露脸选择
         function selectFacecam(isYes) {
-            console.log('selectFacecam called with:', isYes);
-            console.log('isCopyrightPurchased:', isCopyrightPurchased);
-            
             const yesBtn = document.getElementById('facecamYesBtn');
             const noBtn = document.getElementById('facecamNoBtn');
             const input = document.getElementById('facecamInput');
@@ -955,28 +959,27 @@ Please describe your video requirements in detail, including key points, special
                 return;
             }
             
-            // 强制移除所有选中状态
-            if (yesBtn) yesBtn.classList.remove('selected');
-            if (noBtn) noBtn.classList.remove('selected');
+            // 强制移除所有选中状态，确保互斥
+            yesBtn.classList.remove('selected');
+            noBtn.classList.remove('selected');
             
-            console.log('Setting facecam to:', isYes);
+            // 强制重绘，确保样式更新
+            void yesBtn.offsetWidth;
+            void noBtn.offsetWidth;
             
-            // 添加当前选中状态
+            // 设置当前选中状态
             if (isYes) {
-                if (yesBtn) yesBtn.classList.add('selected');
-                if (input) input.value = 'true';
+                yesBtn.classList.add('selected');
+                input.value = 'true';
                 currentFacecamUSD = FACECAM_PRICE_USD;
                 currentFacecamCNY = FACECAM_PRICE_CNY;
-                console.log('Facecam price added:', currentFacecamUSD, currentFacecamCNY);
             } else {
-                if (noBtn) noBtn.classList.add('selected');
-                if (input) input.value = 'false';
+                noBtn.classList.add('selected');
+                input.value = 'false';
                 currentFacecamUSD = 0;
                 currentFacecamCNY = 0;
-                console.log('Facecam price removed');
             }
             
-            console.log('Calling updatePrice...');
             updatePrice();
         }
 
