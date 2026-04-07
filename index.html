@@ -987,20 +987,29 @@ Please describe your video requirements in detail, including key points, special
             const data = Object.fromEntries(formData.entries());
             const selectedCard = document.querySelector('.color-card.selected');
             const nailColor = selectedCard ? selectedCard.dataset.name : '未选择';
-            const copyright = data.copyright === 'true' ? '是 / Yes' : '否 / No';
-            const facecam = data.facecam === 'true' ? '是 / Yes' : '否 / No';
+            const copyright = data.copyright === 'true' ? 'Yes' : 'No';
+            const facecam = data.facecam === 'true' ? 'Yes' : 'No';
             const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD;
             const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY;
             
-            alert(`感谢提交！/ Thank you for your submission!
+            // 构建订单信息
+            const orderInfo = `🎬 *Video Custom Order* / 视频定制订单
 
-指甲油颜色 / Nail Color: ${nailColor}
-版权购买 / Copyright: ${copyright}
-露脸出镜 / Face Appearance: ${facecam}
-总计 / Total: $${totalUSD} / ¥${totalCNY}
+💅 *Nail Color / 指甲油:* ${nailColor}
+©️ *Copyright / 版权:* ${copyright}
+👤 *Facecam / 露脸:* ${facecam}
+💰 *Total / 总计:* $${totalUSD} / ¥${totalCNY}
 
-我们会尽快与您联系。
-We will contact you soon.`);
+📝 *Description / 描述:*
+${data.description || 'N/A'}
+
+👤 *Contact / 联系方式:*
+${data.contact || 'N/A'}
+${data.company ? data.company : ''}`;
+            
+            // 编码后跳转到 Telegram
+            const telegramUrl = `https://t.me/goddesshaiyue?text=${encodeURIComponent(orderInfo)}`;
+            window.open(telegramUrl, '_blank');
         });
 
         // 初始化价格
