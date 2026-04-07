@@ -104,7 +104,6 @@
 
         .color-card:hover {
             transform: scale(1.08);
-            z-index: 2;
         }
 
         .color-swatch {
@@ -489,8 +488,10 @@
             text-align: center;
             color: #fff;
             margin-bottom: 40px;
-            position: relative;
-            z-index: 100;
+            position: sticky;
+            top: 20px;
+            z-index: 1000;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
         }
 
         .price-title {
