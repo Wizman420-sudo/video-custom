@@ -700,12 +700,12 @@
                     
                     <div class="facecam-desc">
                         <p>
-                            <strong>✓ 真人出镜</strong>
-                            <span class="facecam-desc-en">Real Person Appearance</span>
+                            <strong>✓ 露脸出镜</strong>
+                            <span class="facecam-desc-en">Face Appearance</span>
                         </p>
                         <p>
-                            专业模特将出现在视频中，增加真实感和亲和力。
-                            <span class="facecam-desc-en">Professional model will appear in the video for authenticity and appeal.</span>
+                            模特将以身材出镜，展现完美曲线。
+                            <span class="facecam-desc-en">Model will appear with body showcase, displaying perfect curves.</span>
                         </p>
                         <p>
                             <strong>✓ 高质量拍摄</strong>
@@ -949,9 +949,11 @@ Please describe your video requirements in detail, including key points, special
                 return;
             }
             
-            // 移除所有选中状态
+            // 强制移除所有选中状态，确保按钮状态正确
             yesBtn.classList.remove('selected');
             noBtn.classList.remove('selected');
+            void yesBtn.offsetWidth; // 强制重绘
+            void noBtn.offsetWidth;
             
             // 添加当前选中状态
             if (isYes) {
@@ -996,7 +998,14 @@ We will contact you soon.`);
         updatePrice();
         
         // 初始化露脸按钮状态（禁用）
-        document.getElementById('facecamYesBtn').disabled = true;
+        const facecamYesBtn = document.getElementById('facecamYesBtn');
+        if (facecamYesBtn) {
+            facecamYesBtn.disabled = true;
+        }
+        
+        // 调试：监听价格变化
+        console.log('Price system initialized');
+        console.log('Base Price: $' + BASE_PRICE_USD + ' / ¥' + BASE_PRICE_CNY);
     </script>
 </body>
 </html>
