@@ -55,7 +55,7 @@
             border-bottom: 1px solid #eee;
         }
 
-        /* 脚趾甲预览区域 */
+        /* 预览区域 */
         .preview-box {
             background: #fafafa;
             border-radius: 16px;
@@ -70,20 +70,72 @@
             margin-bottom: 25px;
         }
 
-        .foot-preview {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .foot-svg {
+        .preview-container {
+            position: relative;
+            display: inline-block;
+            max-width: 600px;
             width: 100%;
-            max-width: 550px;
-            height: auto;
         }
 
-        .toenail {
-            transition: fill 0.3s ease;
+        .preview-image {
+            width: 100%;
+            height: auto;
+            border-radius: 12px;
+            display: block;
+        }
+
+        /* 指甲颜色叠加层 */
+        .nail-overlay {
+            position: absolute;
+            border-radius: 50%;
+            mix-blend-mode: multiply;
+            pointer-events: none;
+            transition: background-color 0.3s ease;
+        }
+
+        /* 大脚趾 */
+        .nail-overlay-1 {
+            top: 28%;
+            left: 68%;
+            width: 8.5%;
+            height: 11%;
+            transform: rotate(-10deg);
+        }
+
+        /* 第二脚趾 */
+        .nail-overlay-2 {
+            top: 22%;
+            left: 58%;
+            width: 6.5%;
+            height: 8.5%;
+            transform: rotate(-5deg);
+        }
+
+        /* 第三脚趾 */
+        .nail-overlay-3 {
+            top: 20%;
+            left: 49%;
+            width: 5.5%;
+            height: 7.5%;
+            transform: rotate(0deg);
+        }
+
+        /* 第四脚趾 */
+        .nail-overlay-4 {
+            top: 22%;
+            left: 41%;
+            width: 5%;
+            height: 7%;
+            transform: rotate(5deg);
+        }
+
+        /* 小脚趾 */
+        .nail-overlay-5 {
+            top: 26%;
+            left: 34%;
+            width: 4.5%;
+            height: 6.5%;
+            transform: rotate(10deg);
         }
 
         /* 颜色选择网格 */
@@ -267,90 +319,16 @@
                 
                 <div class="preview-box">
                     <div class="preview-title">实时预览效果</div>
-                    <div class="foot-preview">
-                        <svg class="foot-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg">
-                            <defs>
-                                <!-- 皮肤渐变 - 更自然的肤色 -->
-                                <linearGradient id="skinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#f8e0d0;stop-opacity:1" />
-                                    <stop offset="50%" style="stop-color:#f0d0c0;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#e8c4b0;stop-opacity:1" />
-                                </linearGradient>
-                                
-                                <!-- 皮肤阴影 -->
-                                <linearGradient id="skinShadow" x1="0%" y1="0%" x2="0%" y2="100%">
-                                    <stop offset="0%" style="stop-color:#e8c4b0;stop-opacity:1" />
-                                    <stop offset="100%" style="stop-color:#d4a995;stop-opacity:1" />
-                                </linearGradient>
-                                
-                                <!-- 指甲油光泽 -->
-                                <linearGradient id="nailGloss" x1="0%" y1="0%" x2="100%" y2="100%">
-                                    <stop offset="0%" style="stop-color:currentColor;stop-opacity:1" />
-                                    <stop offset="50%" style="stop-color:currentColor;stop-opacity:0.9" />
-                                    <stop offset="100%" style="stop-color:currentColor;stop-opacity:0.85" />
-                                </linearGradient>
-                                
-                                <!-- 指甲高光 -->
-                                <radialGradient id="nailHighlight" cx="30%" cy="30%" r="50%">
-                                    <stop offset="0%" style="stop-color:#ffffff;stop-opacity:0.5" />
-                                    <stop offset="100%" style="stop-color:#ffffff;stop-opacity:0" />
-                                </radialGradient>
-                            </defs>
-                            
-                            <!-- 脚部轮廓 - 更自然的形状 -->
-                            <g id="foot">
-                                <!-- 脚掌主体 -->
-                                <ellipse cx="300" cy="280" rx="140" ry="90" fill="url(#skinGradient)" />
-                                
-                                <!-- 大脚趾 -->
-                                <g class="toe" id="toe1">
-                                    <ellipse cx="420" cy="260" rx="45" ry="55" fill="url(#skinGradient)" />
-                                    <ellipse cx="425" cy="255" rx="28" ry="38" fill="#9B1B30" class="toenail"/>
-                                    <!-- 指甲高光 -->
-                                    <ellipse cx="430" cy="245" rx="10" ry="14" fill="rgba(255,255,255,0.35)"/>
-                                    <ellipse cx="428" cy="250" rx="6" ry="8" fill="rgba(255,255,255,0.2)"/>
-                                </g>
-                                
-                                <!-- 第二脚趾 -->
-                                <g class="toe" id="toe2">
-                                    <ellipse cx="365" cy="235" rx="38" ry="50" fill="url(#skinGradient)" />
-                                    <ellipse cx="368" cy="230" rx="23" ry="33" fill="#9B1B30" class="toenail"/>
-                                    <ellipse cx="372" cy="222" rx="8" ry="12" fill="rgba(255,255,255,0.35)"/>
-                                    <ellipse cx="370" cy="227" rx="5" ry="7" fill="rgba(255,255,255,0.2)"/>
-                                </g>
-                                
-                                <!-- 第三脚趾 -->
-                                <g class="toe" id="toe3">
-                                    <ellipse cx="315" cy="225" rx="35" ry="48" fill="url(#skinGradient)" />
-                                    <ellipse cx="318" cy="220" rx="21" ry="31" fill="#9B1B30" class="toenail"/>
-                                    <ellipse cx="321" cy="213" rx="7" ry="11" fill="rgba(255,255,255,0.35)"/>
-                                    <ellipse cx="319" cy="217" rx="4" ry="6" fill="rgba(255,255,255,0.2)"/>
-                                </g>
-                                
-                                <!-- 第四脚趾 -->
-                                <g class="toe" id="toe4">
-                                    <ellipse cx="265" cy="228" rx="32" ry="45" fill="url(#skinGradient)" />
-                                    <ellipse cx="268" cy="223" rx="19" ry="29" fill="#9B1B30" class="toenail"/>
-                                    <ellipse cx="271" cy="217" rx="6" ry="10" fill="rgba(255,255,255,0.35)"/>
-                                    <ellipse cx="269" cy="220" rx="4" ry="5" fill="rgba(255,255,255,0.2)"/>
-                                </g>
-                                
-                                <!-- 小脚趾 -->
-                                <g class="toe" id="toe5">
-                                    <ellipse cx="220" cy="240" rx="28" ry="40" fill="url(#skinGradient)" />
-                                    <ellipse cx="223" cy="235" rx="16" ry="25" fill="#9B1B30" class="toenail"/>
-                                    <ellipse cx="226" cy="230" rx="5" ry="9" fill="rgba(255,255,255,0.35)"/>
-                                    <ellipse cx="224" cy="233" rx="3" ry="5" fill="rgba(255,255,255,0.2)"/>
-                                </g>
-                                
-                                <!-- 脚趾关节细节 -->
-                                <ellipse cx="420" cy="205" rx="35" ry="8" fill="rgba(200,150,130,0.15)" />
-                                <ellipse cx="365" cy="185" rx="28" ry="7" fill="rgba(200,150,130,0.12)" />
-                                <ellipse cx="315" cy="177" rx="26" ry="6" fill="rgba(200,150,130,0.1)" />
-                                <ellipse cx="265" cy="183" rx="24" ry="6" fill="rgba(200,150,130,0.1)" />
-                                <ellipse cx="220" cy="200" rx="20" ry="5" fill="rgba(200,150,130,0.1)" />
-                            </g>
-                        </svg>
+                    <div class="preview-container">
+                        <!-- 真实脚趾照片 -->
+                        <img src="https://i.imgur.com/8XqzKQl.jpeg" alt="脚趾甲预览" class="preview-image" id="footImage">
+                        
+                        <!-- 指甲颜色叠加层 -->
+                        <div class="nail-overlay nail-overlay-1" id="overlay1"></div>
+                        <div class="nail-overlay nail-overlay-2" id="overlay2"></div>
+                        <div class="nail-overlay nail-overlay-3" id="overlay3"></div>
+                        <div class="nail-overlay nail-overlay-4" id="overlay4"></div>
+                        <div class="nail-overlay nail-overlay-5" id="overlay5"></div>
                     </div>
                 </div>
 
@@ -578,17 +556,17 @@
                 selectedColor = color;
                 selectedColorName = name;
                 
-                // 更新所有脚趾甲颜色
-                updateToenailColor(color);
+                // 更新所有指甲颜色
+                updateNailColor(color);
             });
         });
 
-        // 更新脚趾甲颜色
-        function updateToenailColor(color) {
+        // 更新指甲颜色
+        function updateNailColor(color) {
             for (let i = 1; i <= 5; i++) {
-                const nail = document.getElementById(`nail${i}`);
-                if (nail) {
-                    nail.style.fill = color;
+                const overlay = document.getElementById(`overlay${i}`);
+                if (overlay) {
+                    overlay.style.backgroundColor = color;
                 }
             }
         }
@@ -618,6 +596,9 @@
             
             alert(`感谢提交！\n\n指甲油颜色：${selectedColorName}\n视频时长：${data.duration || '未选择'}\n视频风格：${data.style || '未选择'}\n\n我们会尽快与您联系。`);
         });
+
+        // 初始化颜色
+        updateNailColor('#9B1B30');
     </script>
 </body>
 </html>
