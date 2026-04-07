@@ -704,8 +704,8 @@
                             <span class="facecam-desc-en">Face Appearance</span>
                         </p>
                         <p>
-                            模特将以身材出镜，展现完美曲线。
-                            <span class="facecam-desc-en">Model will appear with body showcase, displaying perfect curves.</span>
+                            模特露全脸，不戴口罩，展现真实美貌。
+                            <span class="facecam-desc-en">Model shows full face without mask, displaying real beauty.</span>
                         </p>
                         <p>
                             <strong>✓ 高质量拍摄</strong>
@@ -821,8 +821,11 @@ Please describe your video requirements in detail, including key points, special
 
         // 更新价格显示
         function updatePrice() {
-            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD;
-            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY;
+            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD;
+            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY;
+            
+            console.log('Updating price - Total USD:', totalUSD, 'Total CNY:', totalCNY);
+            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Nail:', currentNailPriceUSD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD);
             
             document.getElementById('priceUsd').textContent = '$' + totalUSD;
             document.getElementById('priceCny').textContent = '¥' + totalCNY;
@@ -939,6 +942,9 @@ Please describe your video requirements in detail, including key points, special
 
         // 露脸选择
         function selectFacecam(isYes) {
+            console.log('selectFacecam called with:', isYes);
+            console.log('isCopyrightPurchased:', isCopyrightPurchased);
+            
             const yesBtn = document.getElementById('facecamYesBtn');
             const noBtn = document.getElementById('facecamNoBtn');
             const input = document.getElementById('facecamInput');
@@ -949,25 +955,28 @@ Please describe your video requirements in detail, including key points, special
                 return;
             }
             
-            // 强制移除所有选中状态，确保按钮状态正确
-            yesBtn.classList.remove('selected');
-            noBtn.classList.remove('selected');
-            void yesBtn.offsetWidth; // 强制重绘
-            void noBtn.offsetWidth;
+            // 强制移除所有选中状态
+            if (yesBtn) yesBtn.classList.remove('selected');
+            if (noBtn) noBtn.classList.remove('selected');
+            
+            console.log('Setting facecam to:', isYes);
             
             // 添加当前选中状态
             if (isYes) {
-                yesBtn.classList.add('selected');
-                input.value = 'true';
+                if (yesBtn) yesBtn.classList.add('selected');
+                if (input) input.value = 'true';
                 currentFacecamUSD = FACECAM_PRICE_USD;
                 currentFacecamCNY = FACECAM_PRICE_CNY;
+                console.log('Facecam price added:', currentFacecamUSD, currentFacecamCNY);
             } else {
-                noBtn.classList.add('selected');
-                input.value = 'false';
+                if (noBtn) noBtn.classList.add('selected');
+                if (input) input.value = 'false';
                 currentFacecamUSD = 0;
                 currentFacecamCNY = 0;
+                console.log('Facecam price removed');
             }
             
+            console.log('Calling updatePrice...');
             updatePrice();
         }
 
