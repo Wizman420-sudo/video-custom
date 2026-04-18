@@ -1065,19 +1065,6 @@
             border-color: rgba(255,255,255,0.2) !important;
         }
 
-
-        /* Force clickable buttons */
-        .scriptvoice-btn {
-            pointer-events: auto !important;
-            z-index: 100 !important;
-        }
-        
-        .copyright-btn, .facecam-btn {
-            pointer-events: auto !important;
-            z-index: 100 !important;
-        }
-
-
         /* 普通选项网格 */
         .option-grid {
             display: grid;
@@ -1475,6 +1462,12 @@
             .option-grid {
                 grid-template-columns: 1fr !important;
             }
+            
+            /* 视角选择移动端优化 */
+            .option-grid[style*="repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
 
             .copyright-buttons {
                 flex-direction: column;
@@ -1721,9 +1714,62 @@
                 </div>
             </div>
 
-            <!-- 第五幕：选择鞋子 -->
+            <!-- 第五幕：拍摄视角选择 -->
             <div class="form-section">
-                <h2 class="section-title">第五幕：选择鞋子</h2>
+                <h2 class="section-title">第五幕：拍摄视角 / 机位数量</h2>
+                
+                <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 14px; padding: 18px 25px; margin-bottom: 25px; border: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 2rem;">🎥</span>
+                        <div>
+                            <div style="font-size: 0.95rem; color: #1a1a1a; font-weight: 500;">Camera Angles / 拍摄视角</div>
+                            <div style="font-size: 0.8rem; color: #888;">Select number of camera angles</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 1.3rem; font-weight: 600; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">+¥178 / +$38 <span style="font-size: 0.8rem; font-weight: 400;">per extra angle</span></div>
+                        <div style="font-size: 0.75rem; color: #888;">Additional Fee / 额外费用</div>
+                    </div>
+                </div>
+                
+                <div class="option-grid" style="grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <label class="option-card selected" style="padding: 30px 20px;">
+                        <input type="radio" name="angles" value="1" checked onchange="selectAngles(1)">
+                        <div class="option-label" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">1 个视角</div>
+                        <div class="option-price" style="color: #888; font-size: 0.85rem;">默认 / Default</div>
+                        <div style="margin-top: 12px; font-size: 1.2rem; font-weight: 600; color: #667eea;">¥0 / $0</div>
+                    </label>
+                    
+                    <label class="option-card" style="padding: 30px 20px;">
+                        <input type="radio" name="angles" value="2" onchange="selectAngles(2)">
+                        <div class="option-label" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">2 个视角</div>
+                        <div class="option-price" style="color: #ff4d4f; font-size: 0.85rem;">+1 个额外机位</div>
+                        <div style="margin-top: 12px; font-size: 1.2rem; font-weight: 600; color: #667eea;">+¥178 / +$38</div>
+                    </label>
+                    
+                    <label class="option-card" style="padding: 30px 20px;">
+                        <input type="radio" name="angles" value="3" onchange="selectAngles(3)">
+                        <div class="option-label" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">3 个视角</div>
+                        <div class="option-price" style="color: #ff4d4f; font-size: 0.85rem;">+2 个额外机位</div>
+                        <div style="margin-top: 12px; font-size: 1.2rem; font-weight: 600; color: #667eea;">+¥356 / +$76</div>
+                    </label>
+                </div>
+                
+                <div style="margin-top: 20px; padding: 15px 20px; background: rgba(102, 126, 234, 0.08); border-radius: 12px; border-left: 4px solid #667eea;">
+                    <div style="font-size: 0.9rem; color: #666; line-height: 1.7;">
+                        <strong style="color: #1a1a1a;">📹 多机位优势 / Multi-Angle Benefits:</strong><br>
+                        • 不同角度拍摄，内容更丰富 / Different angles for richer content<br>
+                        • 特写 + 全景，视觉更多样 / Close-up + wide shot variety<br>
+                        • 后期剪辑更灵活 / More flexible post-production
+                    </div>
+                </div>
+                
+                <input type="hidden" name="angles" id="anglesInput" value="1">
+            </div>
+
+            <!-- 第六幕：选择鞋子 -->
+            <div class="form-section">
+                <h2 class="section-title">第六幕：选择鞋子</h2>
                 
                 <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 14px; padding: 18px 25px; margin-bottom: 25px; border: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
                     <div style="display: flex; align-items: center; gap: 12px;">
@@ -1881,6 +1927,8 @@ Please describe your video requirements in detail, including key points, special
         const SHOE_PRICE_USD = 38;
         const SHOE_PRICE_CNY = 198;
         const SHOE_PRICE_CNY = 198;
+        const EXTRA_ANGLE_PRICE_USD = 38;
+        const EXTRA_ANGLE_PRICE_CNY = 178;
 
         // 当前选择状态
         let currentNailPriceUSD = 0;
@@ -1895,15 +1943,18 @@ Please describe your video requirements in detail, including key points, special
         let currentFacecamCNY = 0;
         let currentScriptVoiceUSD = 0;
         let currentScriptVoiceCNY = 0;
+        let currentAnglesPriceUSD = 0;
+        let currentAnglesPriceCNY = 0;
+        let selectedAngles = 1;
         let isCopyrightPurchased = false;
 
         // 更新价格显示
         function updatePrice() {
-            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD;
-            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY;
+            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD;
+            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY;
             
             console.log('Updating price - Total USD:', totalUSD, 'Total CNY:', totalCNY);
-            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Nail:', currentNailPriceUSD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD, 'ScriptVoice:', currentScriptVoiceUSD);
+            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Nail:', currentNailPriceUSD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD, 'ScriptVoice:', currentScriptVoiceUSD, 'Angles:', currentAnglesPriceUSD);
             
             document.getElementById('priceUsd').textContent = '$' + totalUSD;
             document.getElementById('priceCny').textContent = '¥' + totalCNY;
@@ -1948,6 +1999,16 @@ Please describe your video requirements in detail, including key points, special
                     <div class="price-breakdown-item">
                         <span>剧本配音 / Script + Voice</span>
                         <span>+$${SCRIPT_VOICE_PRICE_USD} / +¥${SCRIPT_VOICE_PRICE_CNY}</span>
+                    </div>
+                `;
+            }
+            
+            if (currentAnglesPriceUSD > 0) {
+                const extraAngles = selectedAngles - 1;
+                breakdown += `
+                    <div class="price-breakdown-item">
+                        <span>拍摄视角 (${selectedAngles}个机位) / Camera Angles</span>
+                        <span>+$${currentAnglesPriceUSD} / +¥${currentAnglesPriceCNY} (${extraAngles}个额外 × ${EXTRA_ANGLE_PRICE_CNY}元)</span>
                     </div>
                 `;
             }
@@ -2091,6 +2152,29 @@ Please describe your video requirements in detail, including key points, special
             updatePrice();
         }
 
+        // 视角选择
+        function selectAngles(count) {
+            selectedAngles = count;
+            document.getElementById('anglesInput').value = count;
+            
+            // 计算额外机位数量
+            const extraAngles = Math.max(0, count - 1);
+            currentAnglesPriceUSD = extraAngles * EXTRA_ANGLE_PRICE_USD;
+            currentAnglesPriceCNY = extraAngles * EXTRA_ANGLE_PRICE_CNY;
+            
+            // 更新卡片选中状态
+            document.querySelectorAll('.option-card input[type="radio"][name="angles"]').forEach(radio => {
+                const card = radio.closest('.option-card');
+                if (radio.checked) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+            
+            updatePrice();
+        }
+
         // 表单提交
         document.getElementById('customForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -2101,8 +2185,9 @@ Please describe your video requirements in detail, including key points, special
             const copyright = data.copyright === 'true' ? 'Yes' : 'No';
             const facecam = data.facecam === 'true' ? 'Yes' : 'No';
             const scriptvoice = data.scriptvoice === 'true' ? 'Yes' : 'No';
-            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD;
-            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY;
+            const angles = data.angles || '1';
+            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD;
+            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY;
             
             const shoeInfo = data.shoe ? `鞋子 #${data.shoe}` : '未选择';
             
@@ -2113,6 +2198,7 @@ Please describe your video requirements in detail, including key points, special
 ©️ *Copyright / 版权:* ${copyright}
 👤 *Facecam / 露脸:* ${facecam}
 📝 *Script + Voice / 剧本配音:* ${scriptvoice}
+🎥 *Camera Angles / 拍摄视角:* ${angles}个机位
 👠 *Shoes / 鞋子:* ${shoeInfo}
 💰 *Total / 总计:* $${totalUSD} / ¥${totalCNY}
 
