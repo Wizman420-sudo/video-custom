@@ -1734,26 +1734,26 @@
                 </div>
                 
                 <div class="option-grid" style="grid-template-columns: repeat(3, 1fr); gap: 20px;">
-                    <label class="option-card selected" style="padding: 30px 20px;">
-                        <input type="radio" name="angles" value="1" checked onchange="selectAngles(1)">
+                    <div class="option-card selected" onclick="selectAngles(1)" style="padding: 30px 20px; cursor: pointer;">
+                        <input type="radio" name="angles" value="1" checked disabled style="pointer-events: none;">
                         <div class="option-label" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">1 个视角</div>
                         <div class="option-price" style="color: #888; font-size: 0.85rem;">默认 / Default</div>
                         <div style="margin-top: 12px; font-size: 1.2rem; font-weight: 600; color: #667eea;">¥0 / $0</div>
-                    </label>
+                    </div>
                     
-                    <label class="option-card" style="padding: 30px 20px;">
-                        <input type="radio" name="angles" value="2" onchange="selectAngles(2)">
+                    <div class="option-card" onclick="selectAngles(2)" style="padding: 30px 20px; cursor: pointer;">
+                        <input type="radio" name="angles" value="2" disabled style="pointer-events: none;">
                         <div class="option-label" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">2 个视角</div>
                         <div class="option-price" style="color: #ff4d4f; font-size: 0.85rem;">+1 个额外机位</div>
                         <div style="margin-top: 12px; font-size: 1.2rem; font-weight: 600; color: #667eea;">+¥178 / +$38</div>
-                    </label>
+                    </div>
                     
-                    <label class="option-card" style="padding: 30px 20px;">
-                        <input type="radio" name="angles" value="3" onchange="selectAngles(3)">
+                    <div class="option-card" onclick="selectAngles(3)" style="padding: 30px 20px; cursor: pointer;">
+                        <input type="radio" name="angles" value="3" disabled style="pointer-events: none;">
                         <div class="option-label" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">3 个视角</div>
                         <div class="option-price" style="color: #ff4d4f; font-size: 0.85rem;">+2 个额外机位</div>
                         <div style="margin-top: 12px; font-size: 1.2rem; font-weight: 600; color: #667eea;">+¥356 / +$76</div>
-                    </label>
+                    </div>
                 </div>
                 
                 <div style="margin-top: 20px; padding: 15px 20px; background: rgba(102, 126, 234, 0.08); border-radius: 12px; border-left: 4px solid #667eea;">
@@ -2162,16 +2162,15 @@ Please describe your video requirements in detail, including key points, special
             currentAnglesPriceUSD = extraAngles * EXTRA_ANGLE_PRICE_USD;
             currentAnglesPriceCNY = extraAngles * EXTRA_ANGLE_PRICE_CNY;
             
-            // 更新卡片选中状态 - 直接根据 count 判断
-            document.querySelectorAll('.option-card input[type="radio"][name="angles"]').forEach(radio => {
-                const card = radio.closest('.option-card');
-                const radioValue = parseInt(radio.value);
+            // 更新卡片选中状态
+            const angleCards = document.querySelectorAll('.option-card input[type="radio"][name="angles"]');
+            angleCards.forEach((radio, index) => {
+                const card = radio.parentElement;
+                const radioValue = index + 1;
                 if (radioValue === count) {
                     card.classList.add('selected');
-                    radio.checked = true;
                 } else {
                     card.classList.remove('selected');
-                    radio.checked = false;
                 }
             });
             
