@@ -2162,13 +2162,16 @@ Please describe your video requirements in detail, including key points, special
             currentAnglesPriceUSD = extraAngles * EXTRA_ANGLE_PRICE_USD;
             currentAnglesPriceCNY = extraAngles * EXTRA_ANGLE_PRICE_CNY;
             
-            // 更新卡片选中状态
+            // 更新卡片选中状态 - 直接根据 count 判断
             document.querySelectorAll('.option-card input[type="radio"][name="angles"]').forEach(radio => {
                 const card = radio.closest('.option-card');
-                if (radio.checked) {
+                const radioValue = parseInt(radio.value);
+                if (radioValue === count) {
                     card.classList.add('selected');
+                    radio.checked = true;
                 } else {
                     card.classList.remove('selected');
+                    radio.checked = false;
                 }
             });
             
