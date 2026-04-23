@@ -1478,6 +1478,206 @@
                 width: 100%;
             }
         }
+
+        /* ========== 穿搭展示板块 ========== */
+        .outfit-divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+            margin: 60px 0;
+        }
+
+        .outfit-section {
+            padding: 20px 0 60px;
+        }
+
+        .outfit-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .outfit-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0 0 8px;
+        }
+
+        .outfit-header p {
+            color: #888;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .outfit-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .outfit-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .outfit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.15);
+        }
+
+        .outfit-card video {
+            width: 100%;
+            aspect-ratio: 9/16;
+            object-fit: cover;
+            display: block;
+            background: #f5f5f5;
+        }
+
+        .outfit-card .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(108, 92, 231, 0.85);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .outfit-card .play-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+            margin-left: 3px;
+        }
+
+        .outfit-card:hover .play-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+
+        .outfit-card.is-playing .play-icon {
+            opacity: 0;
+        }
+
+        .outfit-card-label {
+            padding: 12px 14px;
+            font-size: 0.85rem;
+            color: #333;
+            font-weight: 500;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* 视频弹窗 */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .video-modal-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .video-modal-player {
+            max-height: 85vh;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(108, 92, 231, 0.3);
+        }
+
+        .video-modal-player video {
+            max-height: 85vh;
+            display: block;
+        }
+
+        .video-modal-title {
+            color: white;
+            font-size: 1rem;
+            margin-top: 16px;
+            font-weight: 500;
+        }
+
+        .video-modal-nav {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .video-modal-nav button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .video-modal-nav button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .video-modal-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 900px) {
+            .outfit-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 14px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .outfit-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .outfit-card-label {
+                padding: 8px 10px;
+                font-size: 0.78rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1873,6 +2073,31 @@ Please describe your video requirements in detail, including key points, special
 
             <button type="submit" class="submit-btn">提交需求 / Submit Request</button>
         </form>
+
+        <!-- 穿搭展示板块 -->
+        <hr class="outfit-divider">
+        <section class="outfit-section" id="outfits">
+            <div class="outfit-header">
+                <h2>👗 穿搭展示 / Outfit Gallery</h2>
+                <p>点击视频查看完整效果</p>
+            </div>
+            <div class="outfit-grid" id="outfitGrid">
+                <!-- 由JS动态渲染 -->
+            </div>
+        </section>
+    </div>
+
+    <!-- 视频弹窗 -->
+    <div class="video-modal" id="videoModal">
+        <button class="video-modal-close" onclick="closeVideoModal()">×</button>
+        <div class="video-modal-player">
+            <video id="videoModalVideo" controls autoplay playsinline></video>
+        </div>
+        <div class="video-modal-title" id="videoModalTitle"></div>
+        <div class="video-modal-nav">
+            <button id="videoPrevBtn" onclick="videoPrev()">← 上一个</button>
+            <button id="videoNextBtn" onclick="videoNext()">下一个 →</button>
+        </div>
     </div>
 
     <!-- 选鞋弹窗 -->
