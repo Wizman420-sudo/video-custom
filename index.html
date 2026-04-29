@@ -2564,6 +2564,87 @@ ${data.company ? data.company : ''}`;
             }
         });
 
+        // ============ 第七幕：穿搭选择 ============
+        // 穿搭视频列表
+        const outfitVideos = [
+            { id: 1, title: '穿搭视频 1', src: 'videos/1.mp4' },
+            { id: 2, title: '穿搭视频 2', src: 'videos/2.mp4' },
+            { id: 3, title: '穿搭视频 3', src: 'videos/3.mp4' },
+            { id: 4, title: '穿搭视频 4', src: 'videos/4.mp4' },
+            { id: 5, title: '穿搭视频 5', src: 'videos/5.mp4' },
+            { id: 6, title: '穿搭视频 6', src: 'videos/6.mp4' },
+            { id: 7, title: '穿搭视频 7', src: 'videos/7.mp4' },
+            { id: 8, title: '穿搭视频 8', src: 'videos/8.mp4' }
+        ];
+        
+        let currentOutfitIndex = -1;
+        
+        // 渲染穿搭选择网格
+        function renderOutfitGrid() {
+            const grid = document.getElementById('outfitGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = outfitVideos.map((video, index) => `
+                <div class="outfit-item" onclick="openOutfitVideo(${index})">
+                    <video src="${video.src}" preload="metadata" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;"></video>
+                    <div class="outfit-overlay">
+                        <span>▶ 播放</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 打开穿搭视频
+        function openOutfitVideo(index) {
+            currentOutfitIndex = index;
+            const video = outfitVideos[index];
+            const modal = document.getElementById('videoModal');
+            const videoElement = document.getElementById('videoModalVideo');
+            const titleElement = document.getElementById('videoModalTitle');
+            
+            videoElement.src = video.src;
+            titleElement.textContent = video.title;
+            modal.classList.add('active');
+            videoElement.play();
+            
+            updateVideoNavButtons();
+        }
+        
+        // 上一个视频
+        function videoPrev() {
+            if (currentOutfitIndex > 0) {
+                openOutfitVideo(currentOutfitIndex - 1);
+            }
+        }
+        
+        // 下一个视频
+        function videoNext() {
+            if (currentOutfitIndex < outfitVideos.length - 1) {
+                openOutfitVideo(currentOutfitIndex + 1);
+            }
+        }
+        
+        // 关闭视频模态框
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const videoElement = document.getElementById('videoModalVideo');
+            modal.classList.remove('active');
+            videoElement.pause();
+            videoElement.src = '';
+        }
+        
+        // 更新导航按钮状态
+        function updateVideoNavButtons() {
+            const prevBtn = document.getElementById('videoPrevBtn');
+            const nextBtn = document.getElementById('videoNextBtn');
+            
+            if (prevBtn) prevBtn.disabled = currentOutfitIndex <= 0;
+            if (nextBtn) nextBtn.disabled = currentOutfitIndex >= outfitVideos.length - 1;
+        }
+        
+        // 渲染穿搭网格
+        renderOutfitGrid();
+        
         // 初始化价格
         updatePrice();
         
