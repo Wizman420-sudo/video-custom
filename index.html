@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>视频定制 | KKV 系列</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎬</text></svg>">
     <style>
         * {
             margin: 0;
@@ -919,6 +920,152 @@
             cursor: not-allowed;
         }
 
+        /* 剧本配音选择区域 */
+        .scriptvoice-box {
+            background: linear-gradient(135deg, #11998e 0%, #38ef7d 50%, #11998e 100%);
+            background-size: 200% 100%;
+            animation: shimmer 5s ease-in-out infinite;
+            border-radius: 20px;
+            padding: 45px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 35px;
+            box-shadow: 0 20px 60px rgba(56, 239, 125, 0.3), 0 0 0 1px rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scriptvoice-box::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+        }
+
+        .scriptvoice-box::after {
+            content: '';
+            position: absolute;
+            bottom: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: float 8s ease-in-out infinite;
+        }
+
+        .scriptvoice-box .scriptvoice-title,
+        .scriptvoice-box .scriptvoice-title-en,
+        .scriptvoice-box .scriptvoice-price,
+        .scriptvoice-box .scriptvoice-price-en,
+        .scriptvoice-box .scriptvoice-desc,
+        .scriptvoice-box .scriptvoice-buttons {
+            position: relative;
+            z-index: 1;
+        }
+
+        .scriptvoice-title {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-bottom: 15px;
+        }
+
+        .scriptvoice-title-en {
+            font-size: 1rem;
+            font-weight: 400;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .scriptvoice-price {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+
+        .scriptvoice-price-en {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            margin-bottom: 25px;
+        }
+
+        .scriptvoice-desc {
+            background: rgba(255,255,255,0.15);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+            text-align: left;
+        }
+
+        .scriptvoice-desc p {
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .scriptvoice-desc p:last-child {
+            margin-bottom: 0;
+        }
+
+        .scriptvoice-desc-en {
+            opacity: 0.9;
+            font-size: 0.9rem;
+            margin-top: 8px;
+        }
+
+        .scriptvoice-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .scriptvoice-btn {
+            padding: 15px 50px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .scriptvoice-btn-yes {
+            background: #fff;
+            color: #11998e;
+        }
+
+        .scriptvoice-btn-yes:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(255,255,255,0.3);
+        }
+
+        .scriptvoice-btn-no {
+            background: transparent;
+            color: #fff;
+            border-color: rgba(255,255,255,0.5);
+        }
+
+        .scriptvoice-btn-no:hover {
+            background: rgba(255,255,255,0.1);
+            border-color: #fff;
+        }
+
+        .scriptvoice-btn.selected {
+            background: #fff !important;
+            color: #11998e !important;
+            border-color: #fff !important;
+            box-shadow: 0 4px 20px rgba(255,255,255,0.4);
+        }
+
+        .scriptvoice-btn:not(.selected) {
+            background: rgba(255,255,255,0.1) !important;
+            color: rgba(255,255,255,0.6) !important;
+            border-color: rgba(255,255,255,0.2) !important;
+        }
+
         /* 普通选项网格 */
         .option-grid {
             display: grid;
@@ -1316,6 +1463,12 @@
             .option-grid {
                 grid-template-columns: 1fr !important;
             }
+            
+            /* 视角选择移动端优化 */
+            .option-grid[style*="repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+                gap: 12px !important;
+            }
 
             .copyright-buttons {
                 flex-direction: column;
@@ -1323,6 +1476,206 @@
 
             .copyright-btn {
                 width: 100%;
+            }
+        }
+
+        /* ========== 穿搭选择板块 ========== */
+        .outfit-divider {
+            border: none;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
+            margin: 60px 0;
+        }
+
+        .outfit-section {
+            padding: 20px 0 60px;
+        }
+
+        .outfit-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .outfit-header h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0 0 8px;
+        }
+
+        .outfit-header p {
+            color: #888;
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        .outfit-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+
+        .outfit-card {
+            background: #ffffff;
+            border-radius: 16px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+            position: relative;
+        }
+
+        .outfit-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.15);
+        }
+
+        .outfit-card video {
+            width: 100%;
+            aspect-ratio: 9/16;
+            object-fit: cover;
+            display: block;
+            background: #f5f5f5;
+        }
+
+        .outfit-card .play-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px;
+            height: 48px;
+            background: rgba(108, 92, 231, 0.85);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            pointer-events: none;
+        }
+
+        .outfit-card .play-icon svg {
+            width: 20px;
+            height: 20px;
+            fill: white;
+            margin-left: 3px;
+        }
+
+        .outfit-card:hover .play-icon {
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.8);
+        }
+
+        .outfit-card.is-playing .play-icon {
+            opacity: 0;
+        }
+
+        .outfit-card-label {
+            padding: 12px 14px;
+            font-size: 0.85rem;
+            color: #333;
+            font-weight: 500;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        /* 视频弹窗 */
+        .video-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.92);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+        }
+
+        .video-modal.active {
+            display: flex;
+        }
+
+        .video-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 24px;
+            width: 40px;
+            height: 40px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .video-modal-close:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .video-modal-player {
+            max-height: 85vh;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 0 60px rgba(108, 92, 231, 0.3);
+        }
+
+        .video-modal-player video {
+            max-height: 85vh;
+            display: block;
+        }
+
+        .video-modal-title {
+            color: white;
+            font-size: 1rem;
+            margin-top: 16px;
+            font-weight: 500;
+        }
+
+        .video-modal-nav {
+            display: flex;
+            gap: 16px;
+            margin-top: 16px;
+        }
+
+        .video-modal-nav button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: white;
+            padding: 8px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: background 0.2s;
+        }
+
+        .video-modal-nav button:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .video-modal-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        @media (max-width: 900px) {
+            .outfit-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 14px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .outfit-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 10px;
+            }
+            .outfit-card-label {
+                padding: 8px 10px;
+                font-size: 0.78rem;
             }
         }
     </style>
@@ -1519,16 +1872,112 @@
                 </div>
             </div>
 
-            <!-- 第四幕：选择鞋子 -->
+            <!-- 第四幕：剧本配音选择 -->
             <div class="form-section">
-                <h2 class="section-title">第四幕：选择鞋子</h2>
+                <h2 class="section-title">第四幕：剧本配音选项</h2>
+                
+                <div class="scriptvoice-box">
+                    <div class="scriptvoice-title">是否需要写剧本加拍摄时配音？</div>
+                    <div class="scriptvoice-title-en">Do you need custom script + voice-over during filming?</div>
+                    
+                    <div class="scriptvoice-price">$38 / ¥138</div>
+                    <div class="scriptvoice-price-en">Script + Voice Fee</div>
+                    
+                    <div class="scriptvoice-desc">
+                        <p>
+                            <strong>✓ 定制剧本</strong>
+                            <span class="scriptvoice-desc-en">Custom Script</span>
+                        </p>
+                        <p>
+                            Seamoon 女神亲自编写剧情文本，代入角色专属定制。
+                            <span class="scriptvoice-desc-en">Seamoon goddess writes custom story scripts, personalized for your role.</span>
+                        </p>
+                        <p>
+                            <strong>✓ 真人配音</strong>
+                            <span class="scriptvoice-desc-en">Real Voice Recording</span>
+                        </p>
+                        <p>
+                            拍摄时同步录制对话配音，打造沉浸式体验。
+                            <span class="scriptvoice-desc-en">Record voice-over during filming for an immersive experience.</span>
+                        </p>
+                    </div>
+                    
+                    <div class="scriptvoice-buttons">
+                        <button type="button" class="scriptvoice-btn scriptvoice-btn-yes" onclick="selectScriptVoice(true)">
+                            是 / Yes
+                        </button>
+                        <button type="button" class="scriptvoice-btn scriptvoice-btn-no selected" onclick="selectScriptVoice(false)">
+                            否 / No
+                        </button>
+                    </div>
+                    
+                    <input type="hidden" name="scriptvoice" id="scriptvoiceInput" value="false">
+                </div>
+            </div>
+
+            <!-- 第五幕：拍摄视角选择 -->
+            <div class="form-section">
+                <h2 class="section-title">第五幕：拍摄视角 / 机位数量</h2>
+                
+                <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 14px; padding: 18px 25px; margin-bottom: 25px; border: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
+                    <div style="display: flex; align-items: center; gap: 12px;">
+                        <span style="font-size: 2rem;">🎥</span>
+                        <div>
+                            <div style="font-size: 0.95rem; color: #1a1a1a; font-weight: 500;">Camera Angles / 拍摄视角</div>
+                            <div style="font-size: 0.8rem; color: #888;">Select number of camera angles</div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        <div style="font-size: 1.3rem; font-weight: 600; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">+¥178 / +$38 <span style="font-size: 0.8rem; font-weight: 400;">per extra angle</span></div>
+                        <div style="font-size: 0.75rem; color: #888;">Additional Fee / 额外费用</div>
+                    </div>
+                </div>
+                
+                <div class="option-grid" style="grid-template-columns: repeat(3, 1fr); gap: 20px;">
+                    <div class="option-card selected" onclick="selectAngles(1)" style="padding: 30px 20px; cursor: pointer;">
+                        <input type="radio" name="angles" value="1" checked disabled style="pointer-events: none;">
+                        <div class="option-label" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">1 个视角</div>
+                        <div class="option-price" style="color: #888; font-size: 0.85rem;">默认 / Default</div>
+                        <div style="margin-top: 12px; font-size: 1.2rem; font-weight: 600; color: #667eea;">¥0 / $0</div>
+                    </div>
+                    
+                    <div class="option-card" onclick="selectAngles(2)" style="padding: 30px 20px; cursor: pointer;">
+                        <input type="radio" name="angles" value="2" disabled style="pointer-events: none;">
+                        <div class="option-label" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">2 个视角</div>
+                        <div class="option-price" style="color: #ff4d4f; font-size: 0.85rem;">+1 个额外机位</div>
+                        <div style="margin-top: 12px; font-size: 1.2rem; font-weight: 600; color: #667eea;">+¥178 / +$38</div>
+                    </div>
+                    
+                    <div class="option-card" onclick="selectAngles(3)" style="padding: 30px 20px; cursor: pointer;">
+                        <input type="radio" name="angles" value="3" disabled style="pointer-events: none;">
+                        <div class="option-label" style="font-size: 1.1rem; font-weight: 500; margin-bottom: 8px;">3 个视角</div>
+                        <div class="option-price" style="color: #ff4d4f; font-size: 0.85rem;">+2 个额外机位</div>
+                        <div style="margin-top: 12px; font-size: 1.2rem; font-weight: 600; color: #667eea;">+¥356 / +$76</div>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; padding: 15px 20px; background: rgba(102, 126, 234, 0.08); border-radius: 12px; border-left: 4px solid #667eea;">
+                    <div style="font-size: 0.9rem; color: #666; line-height: 1.7;">
+                        <strong style="color: #1a1a1a;">📹 多机位优势 / Multi-Angle Benefits:</strong><br>
+                        • 不同角度拍摄，内容更丰富 / Different angles for richer content<br>
+                        • 特写 + 全景，视觉更多样 / Close-up + wide shot variety<br>
+                        • 后期剪辑更灵活 / More flexible post-production
+                    </div>
+                </div>
+                
+                <input type="hidden" name="angles" id="anglesInput" value="1">
+            </div>
+
+            <!-- 第六幕：选择鞋子 -->
+            <div class="form-section">
+                <h2 class="section-title">第六幕：选择鞋子</h2>
                 
                 <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 14px; padding: 18px 25px; margin-bottom: 25px; border: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
                     <div style="display: flex; align-items: center; gap: 12px;">
                         <span style="font-size: 2rem;">👠</span>
                         <div>
                             <div style="font-size: 0.95rem; color: #1a1a1a; font-weight: 500;">Shoes / 鞋子</div>
-                            <div style="font-size: 0.8rem; color: #888;">Choose from 47 styles - Free!</div>
+                            <div style="font-size: 0.8rem; color: #888;">Choose from 49 styles - Free!</div>
                         </div>
                     </div>
                     <div style="text-align: right;">
@@ -1540,13 +1989,24 @@
                 <div style="text-align: center; padding: 40px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 16px; border: 2px dashed #ddd;">
                     <div style="font-size: 3rem; margin-bottom: 15px;">👠</div>
                     <div style="font-size: 1.1rem; color: #666; margin-bottom: 10px;">已选鞋子：<strong id="selectedShoeName" style="color: #667eea;">未选择</strong></div>
-                    <div style="font-size: 0.9rem; color: #888; margin-bottom: 25px;">47 款鞋子任你选</div>
+                    <div style="font-size: 0.9rem; color: #888; margin-bottom: 25px;">49 款鞋子任你选</div>
                     <button type="button" class="submit-btn" onclick="openShoeModal()" style="width: auto; padding: 15px 40px; margin: 0; display: inline-block;">
                         打开选鞋器 / Open Shoe Selector
                     </button>
                 </div>
                 
                 <input type="hidden" name="shoe" id="shoeInput" value="">
+            </div>
+
+            <!-- 第七幕：穿搭选择 -->
+            <div class="form-section" style="padding: 0; overflow: visible;">
+                <h2 class="section-title">第七幕：穿搭选择</h2>
+                <div class="outfit-header">
+                    <p style="text-align: center; margin: 0;">点击视频查看完整效果</p>
+                </div>
+                <div class="outfit-grid" id="outfitGrid">
+                    <!-- 由JS动态渲染 -->
+                </div>
             </div>
 
             <!-- 需求描述 -->
@@ -1624,6 +2084,20 @@ Please describe your video requirements in detail, including key points, special
 
             <button type="submit" class="submit-btn">提交需求 / Submit Request</button>
         </form>
+
+        </div>
+
+    <!-- 视频弹窗 -->
+    <div class="video-modal" id="videoModal">
+        <button class="video-modal-close" onclick="closeVideoModal()">×</button>
+        <div class="video-modal-player">
+            <video id="videoModalVideo" controls autoplay playsinline></video>
+        </div>
+        <div class="video-modal-title" id="videoModalTitle"></div>
+        <div class="video-modal-nav">
+            <button id="videoPrevBtn" onclick="videoPrev()">← 上一个</button>
+            <button id="videoNextBtn" onclick="videoNext()">下一个 →</button>
+        </div>
     </div>
 
     <!-- 选鞋弹窗 -->
@@ -1674,8 +2148,12 @@ Please describe your video requirements in detail, including key points, special
         const COPYRIGHT_PRICE_CNY = 178;
         const FACECAM_PRICE_USD = 148;
         const FACECAM_PRICE_CNY = 888;
+        const SCRIPT_VOICE_PRICE_USD = 38;
+        const SCRIPT_VOICE_PRICE_CNY = 138;
         const SHOE_PRICE_USD = 38;
         const SHOE_PRICE_CNY = 198;
+        const EXTRA_ANGLE_PRICE_USD = 38;
+        const EXTRA_ANGLE_PRICE_CNY = 178;
 
         // 当前选择状态
         let currentNailPriceUSD = 0;
@@ -1688,15 +2166,20 @@ Please describe your video requirements in detail, including key points, special
         let currentCopyrightCNY = 0;
         let currentFacecamUSD = 0;
         let currentFacecamCNY = 0;
+        let currentScriptVoiceUSD = 0;
+        let currentScriptVoiceCNY = 0;
+        let currentAnglesPriceUSD = 0;
+        let currentAnglesPriceCNY = 0;
+        let selectedAngles = 1;
         let isCopyrightPurchased = false;
 
         // 更新价格显示
         function updatePrice() {
-            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD;
-            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY;
+            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD;
+            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY;
             
             console.log('Updating price - Total USD:', totalUSD, 'Total CNY:', totalCNY);
-            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Nail:', currentNailPriceUSD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD);
+            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Nail:', currentNailPriceUSD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD, 'ScriptVoice:', currentScriptVoiceUSD, 'Angles:', currentAnglesPriceUSD);
             
             document.getElementById('priceUsd').textContent = '$' + totalUSD;
             document.getElementById('priceCny').textContent = '¥' + totalCNY;
@@ -1732,6 +2215,25 @@ Please describe your video requirements in detail, including key points, special
                     <div class="price-breakdown-item">
                         <span>露脸出镜 / Face Appearance</span>
                         <span>+$${FACECAM_PRICE_USD} / +¥${FACECAM_PRICE_CNY}</span>
+                    </div>
+                `;
+            }
+            
+            if (currentScriptVoiceUSD > 0) {
+                breakdown += `
+                    <div class="price-breakdown-item">
+                        <span>剧本配音 / Script + Voice</span>
+                        <span>+$${SCRIPT_VOICE_PRICE_USD} / +¥${SCRIPT_VOICE_PRICE_CNY}</span>
+                    </div>
+                `;
+            }
+            
+            if (currentAnglesPriceUSD > 0) {
+                const extraAngles = selectedAngles - 1;
+                breakdown += `
+                    <div class="price-breakdown-item">
+                        <span>拍摄视角 (${selectedAngles}个机位) / Camera Angles</span>
+                        <span>+$${currentAnglesPriceUSD} / +¥${currentAnglesPriceCNY} (${extraAngles}个额外 × ${EXTRA_ANGLE_PRICE_CNY}元)</span>
                     </div>
                 `;
             }
@@ -1849,6 +2351,57 @@ Please describe your video requirements in detail, including key points, special
             updatePrice();
         }
 
+        // 剧本配音选择
+        function selectScriptVoice(isYes) {
+            const yesBtn = document.querySelector('.scriptvoice-btn-yes');
+            const noBtn = document.querySelector('.scriptvoice-btn-no');
+            const input = document.getElementById('scriptvoiceInput');
+            
+            // 移除所有选中状态
+            yesBtn.classList.remove('selected');
+            noBtn.classList.remove('selected');
+            
+            // 添加当前选中状态
+            if (isYes) {
+                yesBtn.classList.add('selected');
+                input.value = 'true';
+                currentScriptVoiceUSD = SCRIPT_VOICE_PRICE_USD;
+                currentScriptVoiceCNY = SCRIPT_VOICE_PRICE_CNY;
+            } else {
+                noBtn.classList.add('selected');
+                input.value = 'false';
+                currentScriptVoiceUSD = 0;
+                currentScriptVoiceCNY = 0;
+            }
+            
+            updatePrice();
+        }
+
+        // 视角选择
+        function selectAngles(count) {
+            selectedAngles = count;
+            document.getElementById('anglesInput').value = count;
+            
+            // 计算额外机位数量
+            const extraAngles = Math.max(0, count - 1);
+            currentAnglesPriceUSD = extraAngles * EXTRA_ANGLE_PRICE_USD;
+            currentAnglesPriceCNY = extraAngles * EXTRA_ANGLE_PRICE_CNY;
+            
+            // 更新卡片选中状态
+            const angleCards = document.querySelectorAll('.option-card input[type="radio"][name="angles"]');
+            angleCards.forEach((radio, index) => {
+                const card = radio.parentElement;
+                const radioValue = index + 1;
+                if (radioValue === count) {
+                    card.classList.add('selected');
+                } else {
+                    card.classList.remove('selected');
+                }
+            });
+            
+            updatePrice();
+        }
+
         // 表单提交
         document.getElementById('customForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -1858,8 +2411,10 @@ Please describe your video requirements in detail, including key points, special
             const nailColor = selectedCard ? selectedCard.dataset.name : '未选择';
             const copyright = data.copyright === 'true' ? 'Yes' : 'No';
             const facecam = data.facecam === 'true' ? 'Yes' : 'No';
-            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD;
-            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY;
+            const scriptvoice = data.scriptvoice === 'true' ? 'Yes' : 'No';
+            const angles = data.angles || '1';
+            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD;
+            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY;
             
             const shoeInfo = data.shoe ? `鞋子 #${data.shoe}` : '未选择';
             
@@ -1869,6 +2424,8 @@ Please describe your video requirements in detail, including key points, special
 💅 *Nail Color / 指甲油:* ${nailColor}
 ©️ *Copyright / 版权:* ${copyright}
 👤 *Facecam / 露脸:* ${facecam}
+📝 *Script + Voice / 剧本配音:* ${scriptvoice}
+🎥 *Camera Angles / 拍摄视角:* ${angles}个机位
 👠 *Shoes / 鞋子:* ${shoeInfo}
 💰 *Total / 总计:* $${totalUSD} / ¥${totalCNY}
 
@@ -1900,7 +2457,7 @@ ${data.company ? data.company : ''}`;
             const grid = document.getElementById('shoeGrid');
             grid.innerHTML = '';
             
-            for (let i = 1; i <= 47; i++) {
+            for (let i = 1; i <= 49; i++) {
                 const shoeItem = document.createElement('div');
                 shoeItem.className = 'shoe-item';
                 
@@ -2007,6 +2564,87 @@ ${data.company ? data.company : ''}`;
             }
         });
 
+        // ============ 第七幕：穿搭选择 ============
+        // 穿搭视频列表
+        const outfitVideos = [
+            { id: 1, title: '穿搭视频 1', src: 'videos/1.mp4' },
+            { id: 2, title: '穿搭视频 2', src: 'videos/2.mp4' },
+            { id: 3, title: '穿搭视频 3', src: 'videos/3.mp4' },
+            { id: 4, title: '穿搭视频 4', src: 'videos/4.mp4' },
+            { id: 5, title: '穿搭视频 5', src: 'videos/5.mp4' },
+            { id: 6, title: '穿搭视频 6', src: 'videos/6.mp4' },
+            { id: 7, title: '穿搭视频 7', src: 'videos/7.mp4' },
+            { id: 8, title: '穿搭视频 8', src: 'videos/8.mp4' }
+        ];
+        
+        let currentOutfitIndex = -1;
+        
+        // 渲染穿搭选择网格
+        function renderOutfitGrid() {
+            const grid = document.getElementById('outfitGrid');
+            if (!grid) return;
+            
+            grid.innerHTML = outfitVideos.map((video, index) => `
+                <div class="outfit-item" onclick="openOutfitVideo(${index})">
+                    <video src="${video.src}" preload="metadata" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;"></video>
+                    <div class="outfit-overlay">
+                        <span>▶ 播放</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        // 打开穿搭视频
+        function openOutfitVideo(index) {
+            currentOutfitIndex = index;
+            const video = outfitVideos[index];
+            const modal = document.getElementById('videoModal');
+            const videoElement = document.getElementById('videoModalVideo');
+            const titleElement = document.getElementById('videoModalTitle');
+            
+            videoElement.src = video.src;
+            titleElement.textContent = video.title;
+            modal.classList.add('active');
+            videoElement.play();
+            
+            updateVideoNavButtons();
+        }
+        
+        // 上一个视频
+        function videoPrev() {
+            if (currentOutfitIndex > 0) {
+                openOutfitVideo(currentOutfitIndex - 1);
+            }
+        }
+        
+        // 下一个视频
+        function videoNext() {
+            if (currentOutfitIndex < outfitVideos.length - 1) {
+                openOutfitVideo(currentOutfitIndex + 1);
+            }
+        }
+        
+        // 关闭视频模态框
+        function closeVideoModal() {
+            const modal = document.getElementById('videoModal');
+            const videoElement = document.getElementById('videoModalVideo');
+            modal.classList.remove('active');
+            videoElement.pause();
+            videoElement.src = '';
+        }
+        
+        // 更新导航按钮状态
+        function updateVideoNavButtons() {
+            const prevBtn = document.getElementById('videoPrevBtn');
+            const nextBtn = document.getElementById('videoNextBtn');
+            
+            if (prevBtn) prevBtn.disabled = currentOutfitIndex <= 0;
+            if (nextBtn) nextBtn.disabled = currentOutfitIndex >= outfitVideos.length - 1;
+        }
+        
+        // 渲染穿搭网格
+        renderOutfitGrid();
+        
         // 初始化价格
         updatePrice();
         
