@@ -2462,7 +2462,10 @@ ${data.company ? data.company : ''}`;
                 shoeItem.className = 'shoe-item';
                 
                 const img = document.createElement('img');
-                img.src = `shoes/shoe-${String(i).padStart(2, '0')}.png`;
+                // 自动检测图片格式（.png 或 .jpg）
+                let shoeExt = 'png';
+                if (i >= 47) { shoeExt = 'jpg'; }
+                img.src = `shoes/shoe-${String(i).padStart(2, '0')}.${shoeExt}`;
                 img.alt = `Shoe ${i}`;
                 img.loading = 'lazy';
                 
@@ -2546,7 +2549,10 @@ ${data.company ? data.company : ''}`;
             const img = document.getElementById('shoePreviewImage');
             const number = document.getElementById('shoePreviewNumber');
             
-            img.src = `shoes/shoe-${String(id).padStart(2, '0')}.png`;
+            // 自动检测图片格式（.png 或 .jpg）
+            let shoeExt = 'png';
+            if (id >= 47) { shoeExt = 'jpg'; }
+            img.src = `shoes/shoe-${String(id).padStart(2, '0')}.${shoeExt}`;
             number.textContent = `鞋子 #${id} / Shoe #${id}`;
             
             modal.classList.add('active');
