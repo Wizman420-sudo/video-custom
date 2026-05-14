@@ -2464,7 +2464,7 @@ ${data.company ? data.company : ''}`;
                 const img = document.createElement('img');
                 // 自动检测图片格式（.png 或 .jpg）
                 let shoeExt = 'png';
-                if (i >= 47) { shoeExt = 'jpg'; }
+                if (i >= 50) { shoeExt = 'jpg'; }
                 img.src = `shoes/shoe-${String(i).padStart(2, '0')}.${shoeExt}`;
                 img.alt = `Shoe ${i}`;
                 img.loading = 'lazy';
@@ -2551,7 +2551,7 @@ ${data.company ? data.company : ''}`;
             
             // 自动检测图片格式（.png 或 .jpg）
             let shoeExt = 'png';
-            if (id >= 47) { shoeExt = 'jpg'; }
+            if (id >= 50) { shoeExt = 'jpg'; }
             img.src = `shoes/shoe-${String(id).padStart(2, '0')}.${shoeExt}`;
             number.textContent = `鞋子 #${id} / Shoe #${id}`;
             
