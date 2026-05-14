@@ -1480,204 +1480,6 @@
         }
 
         /* ========== 穿搭选择板块 ========== */
-        .outfit-divider {
-            border: none;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, #e0e0e0, transparent);
-            margin: 60px 0;
-        }
-
-        .outfit-section {
-            padding: 20px 0 60px;
-        }
-
-        .outfit-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .outfit-header h2 {
-            font-size: 2rem;
-            font-weight: 700;
-            color: #1a1a1a;
-            margin: 0 0 8px;
-        }
-
-        .outfit-header p {
-            color: #888;
-            font-size: 0.9rem;
-            margin: 0;
-        }
-
-        .outfit-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-
-        .outfit-card {
-            background: #ffffff;
-            border-radius: 16px;
-            overflow: hidden;
-            cursor: pointer;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            box-shadow: 0 2px 12px rgba(0,0,0,0.06);
-            position: relative;
-        }
-
-        .outfit-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 30px rgba(108, 92, 231, 0.15);
-        }
-
-        .outfit-card video {
-            width: 100%;
-            aspect-ratio: 9/16;
-            object-fit: cover;
-            display: block;
-            background: #f5f5f5;
-        }
-
-        .outfit-card .play-icon {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 48px;
-            height: 48px;
-            background: rgba(108, 92, 231, 0.85);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: opacity 0.3s ease, transform 0.3s ease;
-            pointer-events: none;
-        }
-
-        .outfit-card .play-icon svg {
-            width: 20px;
-            height: 20px;
-            fill: white;
-            margin-left: 3px;
-        }
-
-        .outfit-card:hover .play-icon {
-            opacity: 0;
-            transform: translate(-50%, -50%) scale(0.8);
-        }
-
-        .outfit-card.is-playing .play-icon {
-            opacity: 0;
-        }
-
-        .outfit-card-label {
-            padding: 12px 14px;
-            font-size: 0.85rem;
-            color: #333;
-            font-weight: 500;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        /* 视频弹窗 */
-        .video-modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.92);
-            z-index: 10000;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        .video-modal.active {
-            display: flex;
-        }
-
-        .video-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 24px;
-            width: 40px;
-            height: 40px;
-            background: rgba(255,255,255,0.1);
-            border: none;
-            border-radius: 50%;
-            color: white;
-            font-size: 1.5rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .video-modal-close:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .video-modal-player {
-            max-height: 85vh;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 0 60px rgba(108, 92, 231, 0.3);
-        }
-
-        .video-modal-player video {
-            max-height: 85vh;
-            display: block;
-        }
-
-        .video-modal-title {
-            color: white;
-            font-size: 1rem;
-            margin-top: 16px;
-            font-weight: 500;
-        }
-
-        .video-modal-nav {
-            display: flex;
-            gap: 16px;
-            margin-top: 16px;
-        }
-
-        .video-modal-nav button {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.15);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 0.85rem;
-            transition: background 0.2s;
-        }
-
-        .video-modal-nav button:hover {
-            background: rgba(255,255,255,0.2);
-        }
-
-        .video-modal-nav button:disabled {
-            opacity: 0.3;
-            cursor: not-allowed;
-        }
-
-        @media (max-width: 900px) {
-            .outfit-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 14px;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .outfit-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 10px;
-            }
-            .outfit-card-label {
-                padding: 8px 10px;
-                font-size: 0.78rem;
-            }
-        }
     </style>
 </head>
 <body>
@@ -1999,16 +1801,26 @@
             </div>
 
             <!-- 第七幕：穿搭选择 -->
-            <div class="form-section" style="padding: 0; overflow: visible;">
+            <div class="form-section">
                 <h2 class="section-title">第七幕：穿搭选择</h2>
-                <div class="outfit-header">
-                    <p style="text-align: center; margin: 0;">点击视频查看完整效果</p>
-                </div>
-                <div class="outfit-grid" id="outfitGrid">
-                    <!-- 由JS动态渲染 -->
+                <div style="background: linear-gradient(135deg, #FE2C55 0%, #FF0100 50%, #FE2C55 100%); background-size: 200% 100%; animation: shimmer 5s ease-in-out infinite; border-radius: 20px; padding: 45px; text-align: center; margin-bottom: 35px; box-shadow: 0 20px 60px rgba(254, 44, 85, 0.3), 0 0 0 1px rgba(255,255,255,0.2); position: relative; overflow: hidden;">
+                    <div style="position: relative; z-index: 1;">
+                        <div style="font-size: 3rem; margin-bottom: 20px;">📕</div>
+                        <h3 style="font-size: 1.5rem; font-weight: 600; color: #fff; margin-bottom: 15px;">小红书穿搭精选</h3>
+                        <p style="font-size: 1.1rem; color: rgba(255,255,255,0.95); margin-bottom: 10px;">Xiaohongshu Style Collection</p>
+                        <p style="font-size: 0.95rem; color: rgba(255,255,255,0.85); margin-bottom: 30px; line-height: 1.7;">浏览更多精美穿搭，找到你的专属风格<br><span style="color: rgba(255,255,255,0.75); font-size: 0.85rem;">Browse more beautiful outfits and find your exclusive style</span></p>
+                        <a href="https://www.xiaohongshu.com/user/profile/684be2df000000001b01adb6" target="_blank" style="display: inline-flex; align-items: center; gap: 12px; padding: 18px 45px; background: #fff; color: #FE2C55; border-radius: 50px; font-size: 1.1rem; font-weight: 600; text-decoration: none; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 8px 25px rgba(255,255,255,0.3);">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM12 20C7.59 20 4 16.41 4 12C4 7.59 7.59 4 12 4C16.41 4 20 7.59 20 12C20 16.41 16.41 20 12 20Z" fill="#FE2C55"/><path d="M12 6C8.79 6 6.5 8.29 6.5 11.5C6.5 14.71 8.79 17 12 17C15.21 17 17.5 14.71 17.5 11.5C17.5 8.29 15.21 6 12 6ZM12 15C9.79 15 8 13.21 8 11C8 8.79 9.79 7 12 7C14.21 7 16 8.79 16 11C16 13.21 14.21 15 12 15Z" fill="#FE2C55"/></svg>
+                            前往小红书选择穿搭
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left: 8px;"><path d="M18 13V19C18 19.5523 17.5523 20 17 20H7C6.44772 20 6 19.5523 6 19V5C6 4.44772 6.44772 4 7 4H13" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M15 4H21V10" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M10 14L21 3" stroke="#FE2C55" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </a>
+                        <p style="font-size: 0.85rem; color: rgba(255,255,255,0.7); margin-top: 20px;">🔗 点击按钮直接跳转小红书主页<br><span style="color: rgba(255,255,255,0.6);">Click the button to visit Xiaohongshu profile</span></p>
+                    </div>
+                    <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: float 8s ease-in-out infinite;"></div>
                 </div>
             </div>
 
+            <!-- 需求描述 -->
             <!-- 需求描述 -->
             <div class="form-section">
                 <h2 class="section-title">需求描述</h2>
@@ -2088,18 +1900,6 @@ Please describe your video requirements in detail, including key points, special
         </div>
 
     <!-- 视频弹窗 -->
-    <div class="video-modal" id="videoModal">
-        <button class="video-modal-close" onclick="closeVideoModal()">×</button>
-        <div class="video-modal-player">
-            <video id="videoModalVideo" controls autoplay playsinline></video>
-        </div>
-        <div class="video-modal-title" id="videoModalTitle"></div>
-        <div class="video-modal-nav">
-            <button id="videoPrevBtn" onclick="videoPrev()">← 上一个</button>
-            <button id="videoNextBtn" onclick="videoNext()">下一个 →</button>
-        </div>
-    </div>
-
     <!-- 选鞋弹窗 -->
     <div class="shoe-modal" id="shoeModal">
         <div class="shoe-modal-content">
@@ -2570,87 +2370,6 @@ ${data.company ? data.company : ''}`;
             }
         });
 
-        // ============ 第七幕：穿搭选择 ============
-        // 穿搭视频列表
-        const outfitVideos = [
-            { id: 1, title: '穿搭视频 1', src: 'videos/1.mp4' },
-            { id: 2, title: '穿搭视频 2', src: 'videos/2.mp4' },
-            { id: 3, title: '穿搭视频 3', src: 'videos/3.mp4' },
-            { id: 4, title: '穿搭视频 4', src: 'videos/4.mp4' },
-            { id: 5, title: '穿搭视频 5', src: 'videos/5.mp4' },
-            { id: 6, title: '穿搭视频 6', src: 'videos/6.mp4' },
-            { id: 7, title: '穿搭视频 7', src: 'videos/7.mp4' },
-            { id: 8, title: '穿搭视频 8', src: 'videos/8.mp4' }
-        ];
-        
-        let currentOutfitIndex = -1;
-        
-        // 渲染穿搭选择网格
-        function renderOutfitGrid() {
-            const grid = document.getElementById('outfitGrid');
-            if (!grid) return;
-            
-            grid.innerHTML = outfitVideos.map((video, index) => `
-                <div class="outfit-item" onclick="openOutfitVideo(${index})">
-                    <video src="${video.src}" preload="metadata" style="width: 100%; height: 100%; object-fit: cover; cursor: pointer;"></video>
-                    <div class="outfit-overlay">
-                        <span>▶ 播放</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        // 打开穿搭视频
-        function openOutfitVideo(index) {
-            currentOutfitIndex = index;
-            const video = outfitVideos[index];
-            const modal = document.getElementById('videoModal');
-            const videoElement = document.getElementById('videoModalVideo');
-            const titleElement = document.getElementById('videoModalTitle');
-            
-            videoElement.src = video.src;
-            titleElement.textContent = video.title;
-            modal.classList.add('active');
-            videoElement.play();
-            
-            updateVideoNavButtons();
-        }
-        
-        // 上一个视频
-        function videoPrev() {
-            if (currentOutfitIndex > 0) {
-                openOutfitVideo(currentOutfitIndex - 1);
-            }
-        }
-        
-        // 下一个视频
-        function videoNext() {
-            if (currentOutfitIndex < outfitVideos.length - 1) {
-                openOutfitVideo(currentOutfitIndex + 1);
-            }
-        }
-        
-        // 关闭视频模态框
-        function closeVideoModal() {
-            const modal = document.getElementById('videoModal');
-            const videoElement = document.getElementById('videoModalVideo');
-            modal.classList.remove('active');
-            videoElement.pause();
-            videoElement.src = '';
-        }
-        
-        // 更新导航按钮状态
-        function updateVideoNavButtons() {
-            const prevBtn = document.getElementById('videoPrevBtn');
-            const nextBtn = document.getElementById('videoNextBtn');
-            
-            if (prevBtn) prevBtn.disabled = currentOutfitIndex <= 0;
-            if (nextBtn) nextBtn.disabled = currentOutfitIndex >= outfitVideos.length - 1;
-        }
-        
-        // 渲染穿搭网格
-        renderOutfitGrid();
-        
         // 初始化价格
         updatePrice();
         
