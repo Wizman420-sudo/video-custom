@@ -1356,10 +1356,6 @@
                 font-size: 0.85rem !important;
             }
 
-            .copyright-desc, .facecam-desc {
-                padding: 12px !important;
-                font-size: 0.85rem !important;
-            }
 
             .copyright-buttons, .facecam-buttons {
                 gap: 12px !important;
@@ -1977,6 +1973,17 @@ Please describe your video requirements in detail, including key points, special
             document.getElementById('priceBreakdown').innerHTML = breakdown;
         }
 
+        // 指甲油颜色选择逻辑
+        document.querySelectorAll('.color-card').forEach(card => {
+            card.addEventListener('click', function() {
+                // 移除其他卡片的选中状态
+                document.querySelectorAll('.color-card').forEach(c => c.classList.remove('selected'));
+                
+                // 添加当前卡片的选中状态
+                this.classList.add('selected');
+                
+                // 获取颜色信息
+                const name = this.dataset.name;
                 
                 // 更新美甲价格（"无需美甲"不加价）
                 if (name === '无需美甲') {
@@ -2026,6 +2033,7 @@ Please describe your video requirements in detail, including key points, special
             
             updatePrice();
         }
+
         // 露脸选择
         function selectFacecam(isYes) {
             const yesBtn = document.getElementById('facecamYesBtn');
