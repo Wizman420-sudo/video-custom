@@ -471,59 +471,6 @@
         }
 
         /* 预览区域 */
-        .preview-box {
-            background: linear-gradient(135deg, #fafafa 0%, #ffffff 100%);
-            border-radius: 20px;
-            padding: 45px;
-            margin-bottom: 35px;
-            text-align: center;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
-            border: 1px solid rgba(255,255,255,0.8);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .preview-box::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(102, 126, 234, 0.03) 0%, transparent 70%);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .preview-box .preview-title {
-            position: relative;
-            z-index: 1;
-        }
-
-        .preview-box .preview-image {
-            position: relative;
-            z-index: 1;
-        }
-
-        .preview-title {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 25px;
-        }
-
-        .preview-image {
-            width: 100%;
-            max-width: 600px;
-            height: auto;
-            border-radius: 12px;
-            display: block;
-            margin: 0 auto;
-            transition: opacity 0.3s ease;
-        }
-
-        .preview-image.fade {
-            opacity: 0.5;
-        }
-
         /* 颜色选择网格 */
         .color-grid {
             display: grid;
@@ -1409,14 +1356,6 @@
                 font-size: 0.85rem !important;
             }
 
-            .copyright-price, .facecam-price {
-                font-size: 1.5rem !important;
-            }
-
-            .copyright-price-en, .facecam-price-en {
-                font-size: 0.9rem !important;
-            }
-
             .copyright-desc, .facecam-desc {
                 padding: 12px !important;
                 font-size: 0.85rem !important;
@@ -1539,11 +1478,6 @@
                     </div>
                 </div>
                 
-                <div class="preview-box">
-                    <div class="preview-title">实时预览效果</div>
-                    <img src="nail-1-酒红.png.png" alt="指甲油颜色预览" class="preview-image" id="previewImage">
-                </div>
-
                 <div class="color-grid">
                     <div class="color-card selected" data-image="nail-1-酒红.png.png" data-name="酒红" data-color="#C41E3A">
                         <div class="color-swatch" style="background: #C41E3A;"></div>
@@ -2043,28 +1977,6 @@ Please describe your video requirements in detail, including key points, special
             document.getElementById('priceBreakdown').innerHTML = breakdown;
         }
 
-        // 图片切换逻辑
-        document.querySelectorAll('.color-card').forEach(card => {
-            card.addEventListener('click', function() {
-                // 移除其他卡片的选中状态
-                document.querySelectorAll('.color-card').forEach(c => c.classList.remove('selected'));
-                
-                // 添加当前卡片的选中状态
-                this.classList.add('selected');
-                
-                // 获取图片和颜色信息
-                const imagePath = this.dataset.image;
-                const name = this.dataset.name;
-                const color = this.dataset.color;
-                
-                // 切换图片（带淡入淡出效果）
-                const previewImg = document.getElementById('previewImage');
-                previewImg.classList.add('fade');
-                
-                setTimeout(() => {
-                    previewImg.src = imagePath;
-                    previewImg.classList.remove('fade');
-                }, 150);
                 
                 // 更新美甲价格（"无需美甲"不加价）
                 if (name === '无需美甲') {
