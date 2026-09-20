@@ -2037,26 +2037,31 @@ Please describe your video requirements in detail, including key points, special
             '兔子 / Rabbit': { included: 2, minimum: 1, usd: 20, cny: 100 },
             '仓鼠 / Hamster': { included: 20, usd: 6, cny: 20 },
             '小鸡 / Chick': { included: 20, usd: 6, cny: 20 },
+            '乌龟 / Turtle': { included: 20, usd: 6, cny: 20 },
+            '小猪 / Piglet': { included: 1, baseUSD: 300, baseCNY: 1888, usd: 200, cny: 1314 },
+            '羊 / Sheep': { included: 1, baseUSD: 300, baseCNY: 1888, usd: 200, cny: 1314 },
             '金鱼 / Goldfish': { included: 50, usd: 1, cny: 3 }
         };
 
         function getAnimalCharge() {
-            const empty = { label: '', quantity: 0, included: 0, extra: 0, usd: 0, cny: 0 };
+            const empty = { label: '', quantity: 0, included: 0, extra: 0, usd: 0, cny: 0, baseUSD: BASE_PRICE_USD, baseCNY: BASE_PRICE_CNY };
             const selected = document.querySelector('input[name="animal"]:checked');
             if (!selected) return empty;
             const rate = ANIMAL_PRICING[selected.value];
             if (!rate) return empty;
+            // 基础价由已选动物决定，编辑数量时也保持不变。
+            const base = { ...empty, label: selected.value, included: rate.included, baseUSD: rate.baseUSD ?? BASE_PRICE_USD, baseCNY: rate.baseCNY ?? BASE_PRICE_CNY };
             const input = selected.closest('.animal-option').querySelector('input[name="animalQuantity"]');
             const quantity = Number(input.value);
-            if (!input.value || !input.validity.valid || !Number.isSafeInteger(quantity) || quantity < (rate.minimum ?? rate.included)) return empty;
+            if (!input.value || !input.validity.valid || !Number.isSafeInteger(quantity) || quantity < (rate.minimum ?? rate.included)) return base;
             const extra = Math.max(0, quantity - rate.included);
-            return { label: selected.value, quantity, included: rate.included, extra, usd: extra * rate.usd, cny: extra * rate.cny };
+            return { ...base, quantity, extra, usd: extra * rate.usd, cny: extra * rate.cny };
         }
 
         function getOrderTotals(animalCharge = getAnimalCharge()) {
             return {
-                usd: BASE_PRICE_USD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD + animalCharge.usd,
-                cny: BASE_PRICE_CNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY + animalCharge.cny
+                usd: animalCharge.baseUSD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD + animalCharge.usd,
+                cny: animalCharge.baseCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY + animalCharge.cny
             };
         }
 
@@ -2082,7 +2087,7 @@ Please describe your video requirements in detail, including key points, special
             const { usd: totalUSD, cny: totalCNY } = getOrderTotals(animalCharge);
             
             console.log('Updating price - Total USD:', totalUSD, 'Total CNY:', totalCNY);
-            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD, 'ScriptVoice:', currentScriptVoiceUSD, 'Angles:', currentAnglesPriceUSD);
+            console.log('Breakdown - Base:', animalCharge.baseUSD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD, 'ScriptVoice:', currentScriptVoiceUSD, 'Angles:', currentAnglesPriceUSD);
             
             document.getElementById('priceUsd').textContent = '$' + totalUSD;
             document.getElementById('priceCny').textContent = '¥' + totalCNY;
@@ -2091,7 +2096,7 @@ Please describe your video requirements in detail, including key points, special
             let breakdown = `
                 <div class="price-breakdown-item">
                     <span>基础价格 / Base Price</span>
-                    <span>$${BASE_PRICE_USD} / ¥${BASE_PRICE_CNY}</span>
+                    <span>$${animalCharge.baseUSD} / ¥${animalCharge.baseCNY}</span>
                 </div>
             `;
             
@@ -2159,10 +2164,12 @@ Please describe your video requirements in detail, including key points, special
             const hint = document.createElement('p');
             hint.className = 'animal-rate';
             hint.id = quantityInput.id + '-rate';
-            hint.append(document.createTextNode(`基础价含 ${rate.included} 只；超出后每只 +$${rate.usd} / +¥${rate.cny}。`));
+            const baseLabel = rate.baseUSD !== undefined ? `基础价 $${rate.baseUSD} / ¥${rate.baseCNY}，含 ${rate.included} 只` : `基础价含 ${rate.included} 只`;
+            hint.append(document.createTextNode(`${baseLabel}；超出后每只 +$${rate.usd} / +¥${rate.cny}。`));
             const english = document.createElement('span');
             english.lang = 'en';
-            english.textContent = `${rate.included} included. Each additional animal: +$${rate.usd} / +¥${rate.cny}.`;
+            const englishBase = rate.baseUSD !== undefined ? `Base price: $${rate.baseUSD} / ¥${rate.baseCNY}. ` : '';
+            english.textContent = `${englishBase}${rate.included} included. Each additional animal: +$${rate.usd} / +¥${rate.cny}.`;
             hint.append(english);
             box.append(hint);
             quantityInput.setAttribute('aria-describedby', hint.id);
@@ -2377,6 +2384,7 @@ Please describe your video requirements in detail, including key points, special
             const orderInfo = `🎬 *Video Custom Order* / 视频定制订单
 
 🐾 *Animal Companion / 动物伙伴:* ${animalInfo}
+💵 *Base Price / 基础价格:* $${animalCharge.baseUSD} / ¥${animalCharge.baseCNY}
 ➕ *Extra Animals / 超出起步数量:* ${animalCharge.extra} (+$${animalCharge.usd} / +¥${animalCharge.cny})
 ©️ *Copyright / 版权:* ${copyright}
 👤 *Facecam / 露脸:* ${facecam}
