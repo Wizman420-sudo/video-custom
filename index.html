@@ -1475,6 +1475,10 @@ h1 { color: var(--ink); background: none; -webkit-text-fill-color: initial; font
 button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid rgba(212,134,104,.5); outline-offset: 2px; }
 .props-intro { margin: -2px 0 22px; color: var(--ink); font-size: 1rem; line-height: 1.7; }
 .props-intro span { display: block; margin-top: 4px; color: var(--muted); font-size: .9rem; }
+.props-toggle { display: inline-flex; align-items: center; justify-content: center; max-width: 100%; padding: 14px 24px; border: 0; border-radius: 6px; background: var(--accent-deep); color: #fff; font: inherit; cursor: pointer; }
+.props-toggle:hover { background: var(--accent); }
+.props-options { margin-top: 22px; }
+.props-options[hidden] { display: none; }
 .props-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 16px; }
 .prop-card { position: relative; display: block; overflow: hidden; border: 2px solid var(--line); border-radius: 8px; background: var(--surface); cursor: pointer; transition: border-color .2s, box-shadow .2s; }
 .prop-card:hover { border-color: var(--accent); }
@@ -1830,16 +1834,20 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
                     如果需要，请选择你要使用的道具
                     <span lang="en">If needed, please select the props you would like to use.</span>
                 </p>
-                <div class="props-grid" role="group" aria-labelledby="propsTitle" aria-describedby="propsInstructions propsHint">
-                    <label class="prop-card" for="prop01">
-                        <img src="prop-01.jpg" alt="道具 01 / Prop 01" width="750" height="1000" loading="lazy">
-                        <span class="prop-choice">
-                            <input type="checkbox" name="props" id="prop01" value="道具 01 / Prop 01">
-                            <span class="prop-name">道具 01<span lang="en">Prop 01</span></span>
-                        </span>
-                    </label>
+                <button type="button" class="props-toggle" id="propsToggle" aria-expanded="false" aria-controls="propsOptions">选择道具 / Choose Props</button>
+                <p class="props-hint">需要道具时点击上方按钮；不需要则跳过。<br><span lang="en">Click the button above if you need props; otherwise, skip this step.</span></p>
+                <div class="props-options" id="propsOptions" hidden>
+                    <div class="props-grid" role="group" aria-labelledby="propsTitle" aria-describedby="propsInstructions propsHint">
+                        <label class="prop-card" for="prop01">
+                            <img src="prop-01.jpg" alt="割泥线 / Clay Cutting Wire" width="750" height="1000" loading="lazy">
+                            <span class="prop-choice">
+                                <input type="checkbox" name="props" id="prop01" value="割泥线 / Clay Cutting Wire">
+                                <span class="prop-name">割泥线<span lang="en">Clay Cutting Wire</span></span>
+                            </span>
+                        </label>
+                    </div>
+                    <p class="props-hint" id="propsHint">可选，可多选；不需要时无需勾选。<br><span lang="en">Optional. Select any props you need, or leave unchecked for none.</span></p>
                 </div>
-                <p class="props-hint" id="propsHint">可选，可多选；不需要时无需勾选。<br><span lang="en">Optional. Select any props you need, or leave unchecked for none.</span></p>
                 <p class="props-summary" id="propsSummary" role="status" aria-live="polite">已选道具 / Selected props：不使用道具 / None</p>
             </section>
 
@@ -2213,6 +2221,16 @@ Please describe your video requirements in detail, including key points, special
             
             updatePrice();
         }
+
+        // 道具选项默认收起，按需打开；打开面板不会自动选择道具。
+        const propsToggle = document.getElementById('propsToggle');
+        const propsOptions = document.getElementById('propsOptions');
+        propsToggle.addEventListener('click', () => {
+            const wasOpen = !propsOptions.hidden;
+            propsOptions.hidden = wasOpen;
+            propsToggle.setAttribute('aria-expanded', String(!wasOpen));
+            propsToggle.textContent = wasOpen ? '选择道具 / Choose Props' : '收起选项 / Hide Options';
+        });
 
         // 道具选择：原生复选框同时支持鼠标、触屏和键盘。
         const propsInputs = document.querySelectorAll('input[name="props"]');
