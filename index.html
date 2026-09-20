@@ -1473,6 +1473,20 @@ h1 { color: var(--ink); background: none; -webkit-text-fill-color: initial; font
 .shoe-confirm-btn { border-radius: 6px; background: var(--accent); }
 .shoe-confirm-btn:hover { background: var(--accent-deep); box-shadow: 0 10px 24px rgba(23,107,114,.24); }
 button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 3px solid rgba(212,134,104,.5); outline-offset: 2px; }
+.props-intro { margin: -2px 0 22px; color: var(--ink); font-size: 1rem; line-height: 1.7; }
+.props-intro span { display: block; margin-top: 4px; color: var(--muted); font-size: .9rem; }
+.props-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 220px), 1fr)); gap: 16px; }
+.prop-card { position: relative; display: block; overflow: hidden; border: 2px solid var(--line); border-radius: 8px; background: var(--surface); cursor: pointer; transition: border-color .2s, box-shadow .2s; }
+.prop-card:hover { border-color: var(--accent); }
+.prop-card:has(input:checked) { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(23,107,114,.12); }
+.prop-card:focus-within { outline: 3px solid rgba(212,134,104,.5); outline-offset: 3px; }
+.prop-card img { display: block; width: 100%; height: auto; aspect-ratio: 3 / 4; object-fit: contain; background: var(--paper); }
+.prop-choice { display: flex; align-items: center; gap: 12px; padding: 16px; background: #fbfcfc; }
+.prop-choice input { flex: 0 0 auto; width: 22px; height: 22px; margin: 0; accent-color: var(--accent); cursor: pointer; }
+.prop-name { display: flex; flex-direction: column; gap: 3px; color: var(--ink); font-size: .95rem; font-weight: 600; }
+.prop-name span { color: var(--muted); font-size: .85rem; font-weight: 400; }
+.props-hint { margin: 18px 0 0; color: var(--muted); font-size: .85rem; line-height: 1.7; }
+.props-summary { margin: 14px 0 0; padding: 13px 16px; border-radius: 6px; background: var(--accent-soft); color: var(--accent-deep); font-size: .9rem; line-height: 1.6; }
 @media (max-width: 700px) { .container { padding: 20px 14px 48px; } header { padding: 32px 18px 28px; } .form-section { padding: 20px 16px; } .copyright-box, .facecam-box, .scriptvoice-box { padding: 24px 16px; } .price-amount { gap: 22px; } }
 </style>
 </head>
@@ -1808,6 +1822,26 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
                     <div style="position: absolute; top: -50%; right: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%); animation: float 8s ease-in-out infinite;"></div>
                 </div>
             </div>
+
+            <!-- 第八幕：道具选择 / Props -->
+            <section class="form-section" id="propsSection" aria-labelledby="propsTitle">
+                <h2 class="section-title" id="propsTitle">第八幕：道具选择 / Props</h2>
+                <p class="props-intro" id="propsInstructions">
+                    如果需要，请选择你要使用的道具
+                    <span lang="en">If needed, please select the props you would like to use.</span>
+                </p>
+                <div class="props-grid" role="group" aria-labelledby="propsTitle" aria-describedby="propsInstructions propsHint">
+                    <label class="prop-card" for="prop01">
+                        <img src="prop-01.jpg" alt="道具 01 / Prop 01" width="750" height="1000" loading="lazy">
+                        <span class="prop-choice">
+                            <input type="checkbox" name="props" id="prop01" value="道具 01 / Prop 01">
+                            <span class="prop-name">道具 01<span lang="en">Prop 01</span></span>
+                        </span>
+                    </label>
+                </div>
+                <p class="props-hint" id="propsHint">可选，可多选；不需要时无需勾选。<br><span lang="en">Optional. Select any props you need, or leave unchecked for none.</span></p>
+                <p class="props-summary" id="propsSummary" role="status" aria-live="polite">已选道具 / Selected props：不使用道具 / None</p>
+            </section>
 
             <!-- 需求描述 -->
             <!-- 需求描述 -->
@@ -2180,6 +2214,20 @@ Please describe your video requirements in detail, including key points, special
             updatePrice();
         }
 
+        // 道具选择：原生复选框同时支持鼠标、触屏和键盘。
+        const propsInputs = document.querySelectorAll('input[name="props"]');
+        function updatePropsSummary() {
+            const selectedProps = Array.from(propsInputs)
+                .filter(input => input.checked)
+                .map(input => input.value);
+            document.getElementById('propsSummary').textContent =
+                '已选道具 / Selected props：' + (selectedProps.join('、') || '不使用道具 / None');
+        }
+        propsInputs.forEach(input => input.addEventListener('change', updatePropsSummary));
+        document.getElementById('customForm').addEventListener('reset', () => setTimeout(updatePropsSummary, 0));
+        window.addEventListener('pageshow', updatePropsSummary);
+        updatePropsSummary();
+
         // 表单提交
         document.getElementById('customForm').addEventListener('submit', function(e) {
             e.preventDefault();
@@ -2195,6 +2243,7 @@ Please describe your video requirements in detail, including key points, special
             const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY;
             
             const shoeInfo = data.shoe ? `鞋子 #${data.shoe}` : '未选择';
+            const propsInfo = formData.getAll('props').join('、') || '不使用道具 / None';
             
             // 构建订单信息
             const orderInfo = `🎬 *Video Custom Order* / 视频定制订单
@@ -2205,6 +2254,7 @@ Please describe your video requirements in detail, including key points, special
 📝 *Script + Voice / 剧本配音:* ${scriptvoice}
 🎥 *Camera Angles / 拍摄视角:* ${angles}个机位
 👠 *Shoes / 鞋子:* ${shoeInfo}
+🎬 *Props / 道具:* ${propsInfo}
 💰 *Total / 总计:* $${totalUSD} / ¥${totalCNY}
 
 📝 *Description / 描述:*
