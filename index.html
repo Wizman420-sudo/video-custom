@@ -1491,6 +1491,29 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .prop-name span { color: var(--muted); font-size: .85rem; font-weight: 400; }
 .props-hint { margin: 18px 0 0; color: var(--muted); font-size: .85rem; line-height: 1.7; }
 .props-summary { margin: 14px 0 0; padding: 13px 16px; border-radius: 6px; background: var(--accent-soft); color: var(--accent-deep); font-size: .9rem; line-height: 1.6; }
+.animal-intro { margin: -4px 0 22px; color: var(--muted); line-height: 1.7; }
+.animal-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.animal-card { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-width: 0; min-height: 174px; padding: 24px 12px 18px; border: 2px solid var(--line); border-radius: 8px; background: #fbfcfc; color: var(--ink); font: inherit; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
+.animal-card:hover { border-color: var(--accent); background: var(--accent-soft); }
+.animal-card:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px rgba(23,107,114,.1); }
+.animal-card:focus-within { outline: 3px solid rgba(212,134,104,.5); outline-offset: 2px; }
+.animal-card input { position: absolute; top: 12px; right: 12px; width: 18px; height: 18px; margin: 0; accent-color: var(--accent); }
+.animal-icon { position: relative; display: inline-flex; align-items: center; justify-content: center; min-height: 60px; font-size: 2.7rem; line-height: 1; }
+.animal-name { font-weight: 600; font-size: 1rem; }
+.animal-en { color: var(--muted); font-size: .82rem; line-height: 1.35; }
+.animal-card--blocked, .animal-card--blocked:hover { filter: grayscale(1); background: #eeeeee; color: #686868; border-color: #d5d5d5; cursor: not-allowed; box-shadow: none; }
+.animal-card--blocked .animal-icon { opacity: .75; }
+.animal-ban { position: absolute; right: -16px; bottom: -4px; font-size: 1.7rem; }
+.animal-never { margin-top: 2px; color: #333; font-size: .84rem; font-weight: 700; letter-spacing: .04em; }
+.animal-other { margin-top: 20px; }
+.animal-other[hidden] { display: none; }
+.animal-other label { display: block; margin-bottom: 9px; color: var(--ink); font-size: .9rem; }
+.animal-footer { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-top: 18px; padding: 14px 16px; border-radius: 6px; background: var(--accent-soft); }
+.animal-summary { color: var(--accent-deep); font-size: .9rem; line-height: 1.6; overflow-wrap: anywhere; }
+.animal-clear { padding: 8px 12px; border: 1px solid var(--line); border-radius: 5px; background: white; color: var(--accent-deep); font: inherit; font-size: .8rem; cursor: pointer; }
+.animal-clear:disabled { opacity: .5; cursor: default; }
+@media (max-width: 700px) { .animal-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } .animal-card { min-height: 160px; } }
+@media (max-width: 420px) { .animal-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 700px) { .container { padding: 20px 14px 48px; } header { padding: 32px 18px 28px; } .form-section { padding: 20px 16px; } .copyright-box, .facecam-box, .scriptvoice-box { padding: 24px 16px; } .price-amount { gap: 22px; } }
 </style>
 </head>
@@ -1533,61 +1556,31 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
         </div>
 
         <form id="customForm">
-            <!-- 第一幕：指甲油颜色选择 -->
-            <div class="form-section">
-                <h2 class="section-title">第一幕：选择指甲油颜色</h2>
-                
-                <div style="background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 14px; padding: 18px 25px; margin-bottom: 25px; border: 1px solid #e8e8e8; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px;">
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span style="font-size: 2rem;">💅</span>
-                        <div>
-                            <div style="font-size: 0.95rem; color: #1a1a1a; font-weight: 500;">Nail Polish / 指甲油</div>
-                            <div style="font-size: 0.8rem; color: #888;">Select your preferred color</div>
-                        </div>
-                    </div>
-                    <div style="text-align: right;">
-                        <div style="font-size: 1.3rem; font-weight: 600; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">+$28 / +¥128</div>
-                        <div style="font-size: 0.75rem; color: #888;">Additional Fee / 额外费用</div>
-                    </div>
+            <!-- 第一幕：动物伙伴选择 -->
+            <section class="form-section" id="animalSection" aria-labelledby="animalTitle">
+                <h2 class="section-title" id="animalTitle">第一幕：选择你的动物伙伴<br><span lang="en">Choose Your Animal Companion</span></h2>
+                <p class="animal-intro">选择一位动物伙伴，或选择“其他”填写。<br><span lang="en">Choose one animal companion, or select Other to specify.</span></p>
+                <div class="animal-grid" role="group" aria-labelledby="animalTitle">
+                    <label class="animal-card"><input type="radio" name="animal" value="兔子 / Rabbit"><span class="animal-icon" aria-hidden="true">🐰</span><span class="animal-name">兔子</span><span class="animal-en" lang="en">Rabbit</span></label>
+                    <label class="animal-card"><input type="radio" name="animal" value="小猪 / Piglet"><span class="animal-icon" aria-hidden="true">🐷</span><span class="animal-name">小猪</span><span class="animal-en" lang="en">Piglet</span></label>
+                    <label class="animal-card"><input type="radio" name="animal" value="鸡 / Chicken"><span class="animal-icon" aria-hidden="true">🐔</span><span class="animal-name">鸡</span><span class="animal-en" lang="en">Chicken</span></label>
+                    <label class="animal-card"><input type="radio" name="animal" value="羊 / Sheep"><span class="animal-icon" aria-hidden="true">🐑</span><span class="animal-name">羊</span><span class="animal-en" lang="en">Sheep</span></label>
+                    <label class="animal-card"><input type="radio" name="animal" value="乌龟 / Turtle"><span class="animal-icon" aria-hidden="true">🐢</span><span class="animal-name">乌龟</span><span class="animal-en" lang="en">Turtle</span></label>
+                    <label class="animal-card"><input type="radio" name="animal" value="金鱼 / Goldfish"><span class="animal-icon" aria-hidden="true">🐠</span><span class="animal-name">金鱼</span><span class="animal-en" lang="en">Goldfish</span></label>
+                    <label class="animal-card"><input type="radio" name="animal" value="仓鼠 / Hamster"><span class="animal-icon" aria-hidden="true">🐹</span><span class="animal-name">仓鼠</span><span class="animal-en" lang="en">Hamster</span></label>
+                    <label class="animal-card"><input type="radio" name="animal" value="其他 / Other"><span class="animal-icon" aria-hidden="true">🐾</span><span class="animal-name">其他</span><span class="animal-en" lang="en">Other</span></label>
+                    <button type="button" class="animal-card animal-card--blocked" disabled aria-label="猫咪 / Cat：绝不 / NEVER"><span class="animal-icon" aria-hidden="true">🐱<span class="animal-ban">🚫</span></span><span class="animal-name">猫咪</span><span class="animal-en" lang="en">Cat</span><span class="animal-never">绝不 / NEVER</span></button>
+                    <button type="button" class="animal-card animal-card--blocked" disabled aria-label="小狗 / Dog：绝不 / NEVER"><span class="animal-icon" aria-hidden="true">🐶<span class="animal-ban">🚫</span></span><span class="animal-name">小狗</span><span class="animal-en" lang="en">Dog</span><span class="animal-never">绝不 / NEVER</span></button>
                 </div>
-                
-                <div class="color-grid">
-                    <div class="color-card selected" data-image="nail-1-酒红.png.png" data-name="酒红" data-color="#C41E3A">
-                        <div class="color-swatch" style="background: #C41E3A;"></div>
-                        <div class="color-name">酒红</div>
-                    </div>
-                    
-                    <div class="color-card" data-image="nail-3-胭脂红.png.png" data-name="胭脂红" data-color="#DC143C">
-                        <div class="color-swatch" style="background: #DC143C;"></div>
-                        <div class="color-name">胭脂红</div>
-                    </div>
-                    
-                    <div class="color-card" data-image="nail-5-樱花粉.png" data-name="樱花粉" data-color="#FF6B9D">
-                        <div class="color-swatch" style="background: #FF6B9D;"></div>
-                        <div class="color-name">樱花粉</div>
-                    </div>
-                    
-                    <div class="color-card" data-image="nail-6-墨绿.png" data-name="墨绿" data-color="#4A7C59">
-                        <div class="color-swatch" style="background: #4A7C59;"></div>
-                        <div class="color-name">墨绿</div>
-                    </div>
-                    
-                    <div class="color-card" data-image="nail-8-香槟金.png.png" data-name="香槟金" data-color="#B8860B">
-                        <div class="color-swatch" style="background: #B8860B;"></div>
-                        <div class="color-name">香槟金</div>
-                    </div>
-                    
-                    <div class="color-card" data-image="nail-9-深酒红.png.png" data-name="深酒红" data-color="#8B0000">
-                        <div class="color-swatch" style="background: #8B0000;"></div>
-                        <div class="color-name">深酒红</div>
-                    </div>
-                    
-                    <div class="color-card" data-image="nail-7-裸色.png.png" data-name="无需美甲" data-color="#E8C4B0">
-                        <div class="color-swatch" style="background: #E8C4B0; border: 2px dashed #ccc;"></div>
-                        <div class="color-name">无需美甲</div>
-                    </div>
+                <div class="animal-other" id="animalOtherField" hidden>
+                    <label for="animalOther">其他动物伙伴 / Other animal companion</label>
+                    <input class="text-input" type="text" id="animalOther" name="animalOther" maxlength="100" placeholder="请填写动物名称 / Enter the animal name" disabled>
                 </div>
-            </div>
+                <div class="animal-footer">
+                    <p class="animal-summary" id="animalSummary" role="status" aria-live="polite">已选伙伴 / Selected companion：未选择 / None selected</p>
+                    <button type="button" class="animal-clear" id="animalClear" disabled>清除选择 / Clear</button>
+                </div>
+            </section>
 
             <!-- 第二幕：版权选择 -->
             <div class="form-section">
@@ -1973,8 +1966,6 @@ Please describe your video requirements in detail, including key points, special
         // 价格配置
         const BASE_PRICE_USD = 128;
         const BASE_PRICE_CNY = 666;
-        const NAIL_PRICE_USD = 28;
-        const NAIL_PRICE_CNY = 128;
         const COPYRIGHT_PRICE_USD = 38;
         const COPYRIGHT_PRICE_CNY = 178;
         const FACECAM_PRICE_USD = 148;
@@ -1987,12 +1978,10 @@ Please describe your video requirements in detail, including key points, special
         const EXTRA_ANGLE_PRICE_CNY = 178;
 
         // 当前选择状态
-        let currentNailPriceUSD = 0;
         let currentShoePriceUSD = 0;
         let currentShoePriceCNY = 0;
         let selectedShoeId = null;
         let selectedShoeName = null;
-        let currentNailPriceCNY = 0;
         let currentCopyrightUSD = 0;
         let currentCopyrightCNY = 0;
         let currentFacecamUSD = 0;
@@ -2006,11 +1995,11 @@ Please describe your video requirements in detail, including key points, special
 
         // 更新价格显示
         function updatePrice() {
-            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD;
-            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY;
+            const totalUSD = BASE_PRICE_USD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD;
+            const totalCNY = BASE_PRICE_CNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY;
             
             console.log('Updating price - Total USD:', totalUSD, 'Total CNY:', totalCNY);
-            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Nail:', currentNailPriceUSD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD, 'ScriptVoice:', currentScriptVoiceUSD, 'Angles:', currentAnglesPriceUSD);
+            console.log('Breakdown - Base:', BASE_PRICE_USD, 'Copyright:', currentCopyrightUSD, 'Facecam:', currentFacecamUSD, 'ScriptVoice:', currentScriptVoiceUSD, 'Angles:', currentAnglesPriceUSD);
             
             document.getElementById('priceUsd').textContent = '$' + totalUSD;
             document.getElementById('priceCny').textContent = '¥' + totalCNY;
@@ -2022,15 +2011,6 @@ Please describe your video requirements in detail, including key points, special
                     <span>$${BASE_PRICE_USD} / ¥${BASE_PRICE_CNY}</span>
                 </div>
             `;
-            
-            if (currentNailPriceUSD > 0) {
-                breakdown += `
-                    <div class="price-breakdown-item">
-                        <span>美甲颜色 / Nail Polish</span>
-                        <span>+$${NAIL_PRICE_USD} / +¥${NAIL_PRICE_CNY}</span>
-                    </div>
-                `;
-            }
             
             if (currentCopyrightUSD > 0) {
                 breakdown += `
@@ -2074,30 +2054,29 @@ Please describe your video requirements in detail, including key points, special
             document.getElementById('priceBreakdown').innerHTML = breakdown;
         }
 
-        // 指甲油颜色选择逻辑
-        document.querySelectorAll('.color-card').forEach(card => {
-            card.addEventListener('click', function() {
-                // 移除其他卡片的选中状态
-                document.querySelectorAll('.color-card').forEach(c => c.classList.remove('selected'));
-                
-                // 添加当前卡片的选中状态
-                this.classList.add('selected');
-                
-                // 获取颜色信息
-                const name = this.dataset.name;
-                
-                // 更新美甲价格（"无需美甲"不加价）
-                if (name === '无需美甲') {
-                    currentNailPriceUSD = 0;
-                    currentNailPriceCNY = 0;
-                } else {
-                    currentNailPriceUSD = NAIL_PRICE_USD;
-                    currentNailPriceCNY = NAIL_PRICE_CNY;
-                }
-                
-                updatePrice();
-            });
+        // 动物伙伴选择，不收取原来的指甲油费用。
+        const animalInputs = document.querySelectorAll('input[name="animal"]');
+        const animalOther = document.getElementById('animalOther');
+        function updateAnimalSelection() {
+            const selected = document.querySelector('input[name="animal"]:checked');
+            const isOther = selected && selected.value === '其他 / Other';
+            document.getElementById('animalOtherField').hidden = !isOther;
+            animalOther.disabled = !isOther;
+            const animalName = selected ? selected.value : '未选择 / None selected';
+            const details = isOther && animalOther.value.trim() ? '：' + animalOther.value.trim() : '';
+            document.getElementById('animalSummary').textContent = '已选伙伴 / Selected companion：' + animalName + details;
+            document.getElementById('animalClear').disabled = !selected;
+        }
+        animalInputs.forEach(input => input.addEventListener('change', updateAnimalSelection));
+        animalOther.addEventListener('input', updateAnimalSelection);
+        document.getElementById('animalClear').addEventListener('click', () => {
+            animalInputs.forEach(input => { input.checked = false; });
+            animalOther.value = '';
+            updateAnimalSelection();
         });
+        document.getElementById('customForm').addEventListener('reset', () => setTimeout(updateAnimalSelection, 0));
+        window.addEventListener('pageshow', updateAnimalSelection);
+        updateAnimalSelection();
 
         // 版权选择
         function selectCopyright(isYes) {
@@ -2251,14 +2230,15 @@ Please describe your video requirements in detail, including key points, special
             e.preventDefault();
             const formData = new FormData(this);
             const data = Object.fromEntries(formData.entries());
-            const selectedCard = document.querySelector('.color-card.selected');
-            const nailColor = selectedCard ? selectedCard.dataset.name : '未选择';
+            const animalName = data.animal || '未选择 / None selected';
+            const animalDetails = data.animal === '其他 / Other' && data.animalOther?.trim() ? '：' + data.animalOther.trim() : '';
+            const animalInfo = animalName + animalDetails;
             const copyright = data.copyright === 'true' ? 'Yes' : 'No';
             const facecam = data.facecam === 'true' ? 'Yes' : 'No';
             const scriptvoice = data.scriptvoice === 'true' ? 'Yes' : 'No';
             const angles = data.angles || '1';
-            const totalUSD = BASE_PRICE_USD + currentNailPriceUSD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD;
-            const totalCNY = BASE_PRICE_CNY + currentNailPriceCNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY;
+            const totalUSD = BASE_PRICE_USD + currentCopyrightUSD + currentFacecamUSD + currentScriptVoiceUSD + currentAnglesPriceUSD;
+            const totalCNY = BASE_PRICE_CNY + currentCopyrightCNY + currentFacecamCNY + currentScriptVoiceCNY + currentAnglesPriceCNY;
             
             const shoeInfo = data.shoe ? `鞋子 #${data.shoe}` : '未选择';
             const propsInfo = formData.getAll('props').join('、') || '不使用道具 / None';
@@ -2266,7 +2246,7 @@ Please describe your video requirements in detail, including key points, special
             // 构建订单信息
             const orderInfo = `🎬 *Video Custom Order* / 视频定制订单
 
-💅 *Nail Color / 指甲油:* ${nailColor}
+🐾 *Animal Companion / 动物伙伴:* ${animalInfo}
 ©️ *Copyright / 版权:* ${copyright}
 👤 *Facecam / 露脸:* ${facecam}
 📝 *Script + Voice / 剧本配音:* ${scriptvoice}
