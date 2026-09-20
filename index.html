@@ -1492,7 +1492,12 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
 .props-hint { margin: 18px 0 0; color: var(--muted); font-size: .85rem; line-height: 1.7; }
 .props-summary { margin: 14px 0 0; padding: 13px 16px; border-radius: 6px; background: var(--accent-soft); color: var(--accent-deep); font-size: .9rem; line-height: 1.6; }
 .animal-intro { margin: -4px 0 22px; color: var(--muted); line-height: 1.7; }
-.animal-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.animal-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; align-items: start; }
+.animal-option { min-width: 0; }
+.animal-quantity { margin-top: 10px; padding: 12px; border: 1px solid var(--line); border-radius: 6px; background: var(--accent-soft); }
+.animal-quantity[hidden] { display: none; }
+.animal-quantity label { display: block; margin-bottom: 8px; color: var(--accent-deep); font-size: .82rem; }
+.animal-quantity input { display: block; width: 100%; min-width: 0; padding: 10px; border: 1px solid var(--line); border-radius: 5px; background: white; color: var(--ink); font: inherit; }
 .animal-card { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px; min-width: 0; min-height: 174px; padding: 24px 12px 18px; border: 2px solid var(--line); border-radius: 8px; background: #fbfcfc; color: var(--ink); font: inherit; text-align: center; cursor: pointer; transition: border-color .2s, background .2s; }
 .animal-card:hover { border-color: var(--accent); background: var(--accent-soft); }
 .animal-card:has(input:checked) { border-color: var(--accent); background: var(--accent-soft); box-shadow: 0 0 0 2px rgba(23,107,114,.1); }
@@ -1559,16 +1564,64 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
             <!-- 第一幕：动物伙伴选择 -->
             <section class="form-section" id="animalSection" aria-labelledby="animalTitle">
                 <h2 class="section-title" id="animalTitle">第一幕：选择你的动物伙伴<br><span lang="en">Choose Your Animal Companion</span></h2>
-                <p class="animal-intro">选择一位动物伙伴，或选择“其他”填写。<br><span lang="en">Choose one animal companion, or select Other to specify.</span></p>
+                <p class="animal-intro">点击选择动物伙伴，再在下方填写数量；也可以选择“其他”。<br><span lang="en">Choose an animal companion, then enter the quantity below. You can also select Other.</span></p>
                 <div class="animal-grid" role="group" aria-labelledby="animalTitle">
-                    <label class="animal-card"><input type="radio" name="animal" value="兔子 / Rabbit"><span class="animal-icon" aria-hidden="true">🐰</span><span class="animal-name">兔子</span><span class="animal-en" lang="en">Rabbit</span></label>
-                    <label class="animal-card"><input type="radio" name="animal" value="小猪 / Piglet"><span class="animal-icon" aria-hidden="true">🐷</span><span class="animal-name">小猪</span><span class="animal-en" lang="en">Piglet</span></label>
-                    <label class="animal-card"><input type="radio" name="animal" value="鸡 / Chicken"><span class="animal-icon" aria-hidden="true">🐔</span><span class="animal-name">鸡</span><span class="animal-en" lang="en">Chicken</span></label>
-                    <label class="animal-card"><input type="radio" name="animal" value="羊 / Sheep"><span class="animal-icon" aria-hidden="true">🐑</span><span class="animal-name">羊</span><span class="animal-en" lang="en">Sheep</span></label>
-                    <label class="animal-card"><input type="radio" name="animal" value="乌龟 / Turtle"><span class="animal-icon" aria-hidden="true">🐢</span><span class="animal-name">乌龟</span><span class="animal-en" lang="en">Turtle</span></label>
-                    <label class="animal-card"><input type="radio" name="animal" value="金鱼 / Goldfish"><span class="animal-icon" aria-hidden="true">🐠</span><span class="animal-name">金鱼</span><span class="animal-en" lang="en">Goldfish</span></label>
-                    <label class="animal-card"><input type="radio" name="animal" value="仓鼠 / Hamster"><span class="animal-icon" aria-hidden="true">🐹</span><span class="animal-name">仓鼠</span><span class="animal-en" lang="en">Hamster</span></label>
-                    <label class="animal-card"><input type="radio" name="animal" value="其他 / Other"><span class="animal-icon" aria-hidden="true">🐾</span><span class="animal-name">其他</span><span class="animal-en" lang="en">Other</span></label>
+                    <div class="animal-option">
+                        <label class="animal-card"><input type="radio" name="animal" value="兔子 / Rabbit"><span class="animal-icon" aria-hidden="true">🐰</span><span class="animal-name">兔子</span><span class="animal-en" lang="en">Rabbit</span></label>
+                        <div class="animal-quantity" hidden>
+                            <label for="quantity-rabbit">数量 / Quantity</label>
+                            <input type="number" id="quantity-rabbit" name="animalQuantity" min="1" step="1" inputmode="numeric" placeholder="输入数量 / Quantity" aria-label="兔子数量 / Rabbit quantity" disabled>
+                        </div>
+                    </div>
+                    <div class="animal-option">
+                        <label class="animal-card"><input type="radio" name="animal" value="小猪 / Piglet"><span class="animal-icon" aria-hidden="true">🐷</span><span class="animal-name">小猪</span><span class="animal-en" lang="en">Piglet</span></label>
+                        <div class="animal-quantity" hidden>
+                            <label for="quantity-piglet">数量 / Quantity</label>
+                            <input type="number" id="quantity-piglet" name="animalQuantity" min="1" step="1" inputmode="numeric" placeholder="输入数量 / Quantity" aria-label="小猪数量 / Piglet quantity" disabled>
+                        </div>
+                    </div>
+                    <div class="animal-option">
+                        <label class="animal-card"><input type="radio" name="animal" value="鸡 / Chicken"><span class="animal-icon" aria-hidden="true">🐔</span><span class="animal-name">鸡</span><span class="animal-en" lang="en">Chicken</span></label>
+                        <div class="animal-quantity" hidden>
+                            <label for="quantity-chicken">数量 / Quantity</label>
+                            <input type="number" id="quantity-chicken" name="animalQuantity" min="1" step="1" inputmode="numeric" placeholder="输入数量 / Quantity" aria-label="鸡数量 / Chicken quantity" disabled>
+                        </div>
+                    </div>
+                    <div class="animal-option">
+                        <label class="animal-card"><input type="radio" name="animal" value="羊 / Sheep"><span class="animal-icon" aria-hidden="true">🐑</span><span class="animal-name">羊</span><span class="animal-en" lang="en">Sheep</span></label>
+                        <div class="animal-quantity" hidden>
+                            <label for="quantity-sheep">数量 / Quantity</label>
+                            <input type="number" id="quantity-sheep" name="animalQuantity" min="1" step="1" inputmode="numeric" placeholder="输入数量 / Quantity" aria-label="羊数量 / Sheep quantity" disabled>
+                        </div>
+                    </div>
+                    <div class="animal-option">
+                        <label class="animal-card"><input type="radio" name="animal" value="乌龟 / Turtle"><span class="animal-icon" aria-hidden="true">🐢</span><span class="animal-name">乌龟</span><span class="animal-en" lang="en">Turtle</span></label>
+                        <div class="animal-quantity" hidden>
+                            <label for="quantity-turtle">数量 / Quantity</label>
+                            <input type="number" id="quantity-turtle" name="animalQuantity" min="1" step="1" inputmode="numeric" placeholder="输入数量 / Quantity" aria-label="乌龟数量 / Turtle quantity" disabled>
+                        </div>
+                    </div>
+                    <div class="animal-option">
+                        <label class="animal-card"><input type="radio" name="animal" value="金鱼 / Goldfish"><span class="animal-icon" aria-hidden="true">🐠</span><span class="animal-name">金鱼</span><span class="animal-en" lang="en">Goldfish</span></label>
+                        <div class="animal-quantity" hidden>
+                            <label for="quantity-goldfish">数量 / Quantity</label>
+                            <input type="number" id="quantity-goldfish" name="animalQuantity" min="1" step="1" inputmode="numeric" placeholder="输入数量 / Quantity" aria-label="金鱼数量 / Goldfish quantity" disabled>
+                        </div>
+                    </div>
+                    <div class="animal-option">
+                        <label class="animal-card"><input type="radio" name="animal" value="仓鼠 / Hamster"><span class="animal-icon" aria-hidden="true">🐹</span><span class="animal-name">仓鼠</span><span class="animal-en" lang="en">Hamster</span></label>
+                        <div class="animal-quantity" hidden>
+                            <label for="quantity-hamster">数量 / Quantity</label>
+                            <input type="number" id="quantity-hamster" name="animalQuantity" min="1" step="1" inputmode="numeric" placeholder="输入数量 / Quantity" aria-label="仓鼠数量 / Hamster quantity" disabled>
+                        </div>
+                    </div>
+                    <div class="animal-option">
+                        <label class="animal-card"><input type="radio" name="animal" value="其他 / Other"><span class="animal-icon" aria-hidden="true">🐾</span><span class="animal-name">其他</span><span class="animal-en" lang="en">Other</span></label>
+                        <div class="animal-quantity" hidden>
+                            <label for="quantity-other">数量 / Quantity</label>
+                            <input type="number" id="quantity-other" name="animalQuantity" min="1" step="1" inputmode="numeric" placeholder="输入数量 / Quantity" aria-label="其他数量 / Other quantity" disabled>
+                        </div>
+                    </div>
                     <button type="button" class="animal-card animal-card--blocked" disabled aria-label="猫咪 / Cat：绝不 / NEVER"><span class="animal-icon" aria-hidden="true">🐱<span class="animal-ban">🚫</span></span><span class="animal-name">猫咪</span><span class="animal-en" lang="en">Cat</span><span class="animal-never">绝不 / NEVER</span></button>
                     <button type="button" class="animal-card animal-card--blocked" disabled aria-label="小狗 / Dog：绝不 / NEVER"><span class="animal-icon" aria-hidden="true">🐶<span class="animal-ban">🚫</span></span><span class="animal-name">小狗</span><span class="animal-en" lang="en">Dog</span><span class="animal-never">绝不 / NEVER</span></button>
                 </div>
@@ -2064,13 +2117,26 @@ Please describe your video requirements in detail, including key points, special
             animalOther.disabled = !isOther;
             const animalName = selected ? selected.value : '未选择 / None selected';
             const details = isOther && animalOther.value.trim() ? '：' + animalOther.value.trim() : '';
-            document.getElementById('animalSummary').textContent = '已选伙伴 / Selected companion：' + animalName + details;
+            animalInputs.forEach(input => {
+                const quantityBox = input.closest('.animal-option').querySelector('.animal-quantity');
+                const quantityInput = quantityBox.querySelector('input');
+                quantityBox.hidden = !input.checked;
+                quantityInput.disabled = !input.checked;
+                quantityInput.required = input.checked;
+            });
+            const quantityInput = selected?.closest('.animal-option').querySelector('input[name="animalQuantity"]');
+            const quantityText = selected
+                ? (quantityInput.value && quantityInput.validity.valid ? ' × ' + quantityInput.value : '（请填写数量 / Enter quantity）')
+                : '';
+            document.getElementById('animalSummary').textContent = '已选伙伴 / Selected companion：' + animalName + details + quantityText;
             document.getElementById('animalClear').disabled = !selected;
         }
         animalInputs.forEach(input => input.addEventListener('change', updateAnimalSelection));
+        document.querySelectorAll('input[name="animalQuantity"]').forEach(input => input.addEventListener('input', updateAnimalSelection));
         animalOther.addEventListener('input', updateAnimalSelection);
         document.getElementById('animalClear').addEventListener('click', () => {
             animalInputs.forEach(input => { input.checked = false; });
+            document.querySelectorAll('input[name="animalQuantity"]').forEach(input => { input.value = ''; });
             animalOther.value = '';
             updateAnimalSelection();
         });
@@ -2232,7 +2298,8 @@ Please describe your video requirements in detail, including key points, special
             const data = Object.fromEntries(formData.entries());
             const animalName = data.animal || '未选择 / None selected';
             const animalDetails = data.animal === '其他 / Other' && data.animalOther?.trim() ? '：' + data.animalOther.trim() : '';
-            const animalInfo = animalName + animalDetails;
+            const animalQuantity = data.animal ? ' × ' + data.animalQuantity : '';
+            const animalInfo = animalName + animalDetails + animalQuantity;
             const copyright = data.copyright === 'true' ? 'Yes' : 'No';
             const facecam = data.facecam === 'true' ? 'Yes' : 'No';
             const scriptvoice = data.scriptvoice === 'true' ? 'Yes' : 'No';
