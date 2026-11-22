@@ -1465,6 +1465,20 @@ h1 { color: var(--ink); background: none; -webkit-text-fill-color: initial; font
 .shoe-modal-title { color: var(--ink); font-weight: 650; }
 .shoe-modal-close { border-radius: 6px; color: var(--muted); }
 .shoe-grid { gap: 12px; }
+.shoe-filters { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 6px; padding: 10px 20px; background: #fff; border-bottom: 1px solid #dbe4e5; flex: none; }
+.shoe-filter { min-height: 44px; padding: 4px 2px; border: 1px solid #cfdddd; border-radius: 7px; background: #fff; color: var(--ink); font: inherit; font-size: .85rem; line-height: 1.25; cursor: pointer; }
+.shoe-filter small { display: block; font-size: .7rem; }
+.shoe-filter[aria-pressed="true"] { background: var(--accent-deep); color: white; border-color: var(--accent-deep); }
+.shoe-filter:focus-visible { outline: 2px solid var(--accent-deep); outline-offset: 2px; }
+.shoe-filter-count { color: var(--muted); font-size: .8rem; margin: 0 0 10px; }
+.shoe-item[hidden] { display: none !important; }
+@media (max-width: 720px) {
+    .shoe-filters { grid-template-columns: repeat(4, minmax(0,1fr)); padding: 8px 10px; gap: 4px; }
+}
+@media (max-height: 500px) {
+    .shoe-filters { display: flex; overflow-x: auto; }
+    .shoe-filter { flex: 1 0 72px; }
+}
 .shoe-item { border-radius: 6px; border-width: 2px; background: #f5f8f8; }
 .shoe-item:hover { transform: translateY(-3px); box-shadow: 0 9px 20px rgba(28,42,51,.14); }
 .shoe-item.selected { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(23,107,114,.16), 0 9px 20px rgba(28,42,51,.14); }
@@ -1987,7 +2001,9 @@ Please describe your video requirements in detail, including key points, special
                 </div>
                 <button class="shoe-modal-close" onclick="closeShoeModal()">×</button>
             </div>
+            <div id="shoeFilters" class="shoe-filters" role="group" aria-label="鞋子分类 / Shoe categories"></div>
             <div class="shoe-modal-body">
+                <p id="shoeFilterCount" class="shoe-filter-count" role="status"></p>
                 <div class="shoe-grid" id="shoeGrid">
                     <!-- 鞋子图片由 JS 动态生成 -->
                 </div>
@@ -2410,6 +2426,7 @@ ${data.company ? data.company : ''}`;
             document.getElementById('shoeModal').classList.add('active');
             document.body.style.overflow = 'hidden';
             renderShoeGrid();
+            showShoeCategory('all');
         }
 
         function closeShoeModal() {
@@ -2420,6 +2437,51 @@ ${data.company ? data.company : ''}`;
         // 展示编号连续，图片文件沿用原编号；13 和 21 已下架。
         const shoeImageIds = Array.from({ length: 63 }, (_, i) => i + 1)
             .filter(id => id !== 13 && id !== 21);
+
+        // Categories use permanent image IDs, never the position of a filtered card.
+        const shoeCategories = [
+            {key: 'all', zh: '全部', en: 'All'},
+            {key: 'heels', zh: '高跟鞋', en: 'Heels', ids: [16,17,24,38,41,42,53,56,60]},
+            {key: 'boots', zh: '靴子', en: 'Boots', ids: [3,11,12,19,20,22,25,31,32,33,39,40,44,47,48,49,50,51,52,54,57,58,62]},
+            {key: 'sandals', zh: '凉鞋', en: 'Sandals', ids: [9,18,23,35,55]},
+            {key: 'sneakers', zh: '运动鞋', en: 'Sneakers', ids: [1,2,14,15,26,27,28,29,34,45,59,61]},
+            {key: 'flats', zh: '平底鞋', en: 'Flats', ids: [4,5,6,8,10,30,36,43,63]},
+            {key: 'slippers', zh: '拖鞋', en: 'Slides & clogs', ids: [7,46]},
+            {key: 'other', zh: '其他', en: 'Other', ids: [37]}
+        ];
+        const shoeCategoryByImage = new Map(shoeCategories.flatMap(c => (c.ids || []).map(id => [id, c.key])));
+
+        function showShoeCategory(key) {
+            const filters = document.getElementById('shoeFilters');
+            if (!filters.children.length) {
+                for (const c of shoeCategories) {
+                    const button = document.createElement('button');
+                    button.type = 'button';
+                    button.className = 'shoe-filter';
+                    button.dataset.category = c.key;
+                    button.setAttribute('aria-controls', 'shoeGrid');
+                    button.textContent = c.zh;
+                    const en = document.createElement('small');
+                    en.lang = 'en';
+                    en.textContent = c.en;
+                    button.appendChild(en);
+                    button.onclick = () => showShoeCategory(c.key);
+                    filters.appendChild(button);
+                }
+            }
+            for (const button of filters.children) {
+                button.setAttribute('aria-pressed', String(button.dataset.category === key));
+            }
+            const grid = document.getElementById('shoeGrid');
+            let count = 0;
+            for (const card of grid.children) {
+                card.hidden = key !== 'all' && card.dataset.category !== key;
+                if (!card.hidden) count++;
+            }
+            const category = shoeCategories.find(c => c.key === key);
+            document.getElementById('shoeFilterCount').textContent = category.zh + ' · ' + count + ' 款 / ' + count + (count === 1 ? ' style' : ' styles');
+            grid.parentElement.scrollTop = 0;
+        }
 
         function shoeImagePath(displayId) {
             const sourceId = shoeImageIds[displayId - 1];
@@ -2434,6 +2496,8 @@ ${data.company ? data.company : ''}`;
             for (let i = 1; i <= shoeImageIds.length; i++) {
                 const shoeItem = document.createElement('div');
                 shoeItem.className = 'shoe-item';
+                shoeItem.dataset.category = shoeCategoryByImage.get(shoeImageIds[i - 1]) || 'other';
+                if (i === selectedShoeId) shoeItem.classList.add('selected');
                 
                 const img = document.createElement('img');
                 img.src = shoeImagePath(i);
