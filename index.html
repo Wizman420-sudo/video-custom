@@ -2441,13 +2441,13 @@ ${data.company ? data.company : ''}`;
         // Categories use permanent image IDs, never the position of a filtered card.
         const shoeCategories = [
             {key: 'all', zh: '全部', en: 'All'},
-            {key: 'heels', zh: '高跟鞋', en: 'Heels', ids: [16,17,24,38,41,42,53,56,60]},
-            {key: 'boots', zh: '靴子', en: 'Boots', ids: [3,11,12,19,20,22,25,31,32,33,39,40,44,47,48,49,50,51,52,54,57,58,62]},
+            {key: 'heels', zh: '高跟鞋', en: 'Heels', ids: [16,17,24,37,38,41,42,53,56,60]},
+            {key: 'boots', zh: '靴子', en: 'Boots', ids: [3,5,11,12,19,20,22,25,31,32,33,39,40,44,47,48,49,50,51,52,54,57,58,62]},
             {key: 'sandals', zh: '凉鞋', en: 'Sandals', ids: [9,18,23,35,55]},
             {key: 'sneakers', zh: '运动鞋', en: 'Sneakers', ids: [1,2,14,15,26,27,28,29,34,45,59,61]},
-            {key: 'flats', zh: '平底鞋', en: 'Flats', ids: [4,5,6,8,10,30,36,43,63]},
+            {key: 'flats', zh: '平底鞋', en: 'Flats', ids: [4,6,8,10,30,36,43,63]},
             {key: 'slippers', zh: '拖鞋', en: 'Slides & clogs', ids: [7,46]},
-            {key: 'other', zh: '其他', en: 'Other', ids: [37]}
+            {key: 'other', zh: '其他', en: 'Other', ids: []}
         ];
         const shoeCategoryByImage = new Map(shoeCategories.flatMap(c => (c.ids || []).map(id => [id, c.key])));
 
