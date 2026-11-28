@@ -1847,7 +1847,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
                         <span style="font-size: 2rem;">👠</span>
                         <div>
                             <div style="font-size: 0.95rem; color: #1a1a1a; font-weight: 500;">Shoes / 鞋子</div>
-                            <div style="font-size: 0.8rem; color: #888;">Choose from 61 styles - Free!</div>
+                            <div style="font-size: 0.8rem; color: #888;">Choose from 62 styles - Free!</div>
                         </div>
                     </div>
                     <div style="text-align: right;">
@@ -1859,7 +1859,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-
                 <div style="text-align: center; padding: 40px; background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%); border-radius: 16px; border: 2px dashed #ddd;">
                     <div style="font-size: 3rem; margin-bottom: 15px;">👠</div>
                     <div style="font-size: 1.1rem; color: #666; margin-bottom: 10px;">已选鞋子：<strong id="selectedShoeName" style="color: #667eea;">未选择</strong></div>
-                    <div style="font-size: 0.9rem; color: #888; margin-bottom: 25px;">61 款鞋子任你选</div>
+                    <div style="font-size: 0.9rem; color: #888; margin-bottom: 25px;">62 款鞋子任你选</div>
                     <button type="button" class="submit-btn" onclick="openShoeModal()" style="width: auto; padding: 15px 40px; margin: 0; display: inline-block;">
                         打开选鞋器 / Open Shoe Selector
                     </button>
@@ -2435,14 +2435,14 @@ ${data.company ? data.company : ''}`;
         }
 
         // 展示编号连续，图片文件沿用原编号；13 和 21 已下架。
-        const shoeImageIds = Array.from({ length: 63 }, (_, i) => i + 1)
+        const shoeImageIds = Array.from({ length: 64 }, (_, i) => i + 1)
             .filter(id => id !== 13 && id !== 21);
 
         // Categories use permanent image IDs, never the position of a filtered card.
         const shoeCategories = [
             {key: 'all', zh: '全部', en: 'All'},
             {key: 'heels', zh: '高跟鞋', en: 'Heels', ids: [16,17,24,37,38,41,42,53,56,60]},
-            {key: 'boots', zh: '靴子', en: 'Boots', ids: [3,5,11,12,19,20,22,25,31,32,33,39,40,44,47,48,49,50,51,52,54,57,58,62]},
+            {key: 'boots', zh: '靴子', en: 'Boots', ids: [3,5,11,12,19,20,22,25,31,32,33,39,40,44,47,48,49,50,51,52,54,57,58,62,64]},
             {key: 'sandals', zh: '凉鞋', en: 'Sandals', ids: [9,18,23,35,55]},
             {key: 'sneakers', zh: '运动鞋', en: 'Sneakers', ids: [1,2,14,15,26,27,28,29,34,45,59,61]},
             {key: 'flats', zh: '平底鞋', en: 'Flats', ids: [4,6,8,10,30,36,43,63]},
